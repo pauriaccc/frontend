@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background-color: #2d2a2e;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -10,4 +11,64 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+body {
+  margin: 0;
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  width: 220px;
+  background: #3b3b3d;
+  color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 20px;
+  box-sizing: border-box;
+}
+
+.logoDiv {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  margin-bottom: 40px;
+}
+
+.logoImage {
+  width: 50px;
+  height: auto;
+  margin: 0
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #FFFFFF;
+  font-size: 18px;
+  padding: 8px 0;
+}
+
+.navbar a:hover {
+  color: #ffd866;
+}
+
+ /* Header */
+.header {
+  background-color: #000000;
+  height: 80px;
+}
+
+ /* Main */
+.main {
+  margin-left: 220px;
+  padding: 20px;
+  color: white;
 }
