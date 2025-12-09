@@ -19,7 +19,6 @@ function Journal(props) {
       <div className="info-container">
         <p className="journal-date">{formatDate(props.date)}</p>
         <p className="journal-content">{props.content}</p>
-
         <div className="tags">
           {props.tags && props.tags.map(tag => (
             <span className="tag" key={tag}>{tag}</span>

@@ -7,7 +7,7 @@ function Dictionaries() {
   const [dictionaries, setDictionaries] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/dictionaries/STU005")
+    fetch("http://localhost:8080/api/dictionaries/STU001")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);

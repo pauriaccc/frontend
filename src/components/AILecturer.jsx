@@ -1,23 +1,30 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
 import Header from "./Header";
+import logo from "../images/logo.png";
 
 function AILecturer() {
   const [message, setMessage] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [talking, setTalking] = useState(false);
 
   const callBackend = () => {
+    setLoading(true);
+    setTalking(false);
+    setMessage("");
+
     fetch(`http://localhost:8080/api/ai?prompt=${encodeURIComponent(prompt)}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.text();
+      .then((response) => response.text())
+      .then((data) => {
+        setMessage(data);
+        setLoading(false);
+        setTalking(true);
+        setTimeout(() => setTalking(false), 2500);
       })
-      .then((data) => setMessage(data))
-      .catch((error) => {
-        console.error("Error fetching message:", error);
-        setMessage("Failed to fetch message from API.");
+      .catch((err) => {
+        setMessage("Failed to fetch message.");
+        setLoading(false);
       });
   };
 
@@ -26,23 +33,43 @@ function AILecturer() {
       <Navbar />
       <Header />
       <div className="main">
-        <h1>AI Lecturer</h1>
 
         <div className="ai-lecturer-card">
-          <input
-            className="ai-input"
-            type="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Enter prompt..."
-          />
-          <button className="ai-button" onClick={callBackend}>Send</button>
-
-          {message && (
-            <div className="ai-response">
-              <strong>{message}</strong>
+            <div className='ai-lecturer'>
+                <img
+                  className={`logoImage
+                              ${loading ? "thinking" : ""}
+                              ${talking ? "talking" : ""}`
+                  }
+                  src={logo}
+                  alt="Placement Pal Logo"
+                />
+                 <div className="thinking-wrapper">
+                   {loading && (
+                     <div className="thinking-dots">
+                       <div></div>
+                     </div>
+                   )}
+                 </div>
+                 <h1>How Can I Help?</h1>
+                 <h4>Ask me To Explain Anything!</h4>
             </div>
-          )}
+            <div className='search-response-container'>
+                <input
+                    className="ai-input"
+                    type="text"
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="Enter prompt..."
+                />
+                <button className="ai-button" onClick={callBackend}>Send</button>
+            </div>
+
+              {message && (
+                <div className="ai-response">
+                  <strong>{message}</strong>
+                </div>
+              )}
         </div>
       </div>
     </>

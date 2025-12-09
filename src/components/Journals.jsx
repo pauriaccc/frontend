@@ -7,7 +7,7 @@ function Journals() {
   const [journals, setJournals] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/journals/STU006")
+    fetch("http://localhost:8080/api/journals/STU001")
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
         return res.json();
