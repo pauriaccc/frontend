@@ -1,7 +1,16 @@
+import Navbar from "./Navbar"
+import Header from "./Header"
+
 function Settings() {
-  return (
-      <h1>Settings</h1>
-  );
+    return (
+        <>
+            <Navbar />
+            <Header />
+            <div className="main">
+              <h1>Settings</h1>
+            </div>
+        </>
+    )
 }
 
 export default Settings;

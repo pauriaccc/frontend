@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&display=swap');
+
 body {
   margin: 0;
   background-color: #2d2a2e;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -45,7 +48,7 @@ body {
 
 .logoText {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 300;
   margin: 0;
 }
 
@@ -76,6 +79,7 @@ body {
 /* Dictionary */
 .dictionary-entry {
   background: #362c32;
+  position: relative;
   border-radius: 12px;
   padding: 20px 24px;
   margin: 20px 0;
@@ -115,6 +119,167 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   margin-top: 20px;
+}
+
+.add-dictionary-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Plus button styling */
+.add-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #af9451;
+  color: #fff;
+  font-size: 32px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.add-button:hover {
+  background: #8c6f51;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.add-button:active {
+  transform: scale(0.95);
+}
+
+/* Dictionary Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  background: #362c32;
+  padding: 25px 30px;
+  border-radius: 12px;
+  width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1001;
+}
+
+.modal-card h2 {
+  margin-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ffd866;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px 12px;
+  background: #2d2a2e;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.modal-textarea {
+  resize: vertical;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-cancel-button {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.modal-cancel-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dictionary Delete Button */
+.dictionary-delete-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #af9451;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-top: 5px;
+  display: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  z-index: 2;
+}
+
+.dictionary-delete-button:hover {
+  background: #8c6f51;
+  transform: translateY(-1px);
+}
+
+.dictionary-delete-button:active {
+  transform: scale(0.95);
+}
+
+/* Dictionary Edit Button */
+.dictionary-edit-button {
+display: none;
+  position: absolute;
+  margin-top: 5px;
+  top: 10px;
+  right: 45px;
+  background: #af9451;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  z-index: 2;
+}
+
+.dictionary-edit-button:hover {
+  background: #8c6f51;
+  transform: translateY(-1px);
+}
+
+.dictionary-edit-button:active {
+  transform: scale(0.95);
+}
+
+/* Dictionary Buttons Hover */
+.dictionary-entry:hover .dictionary-edit-button,
+.dictionary-entry:hover .dictionary-delete-button {
+    display: inline-block;
 }
 
 /* TAG STYLING */
@@ -239,18 +404,19 @@ body {
   margin-bottom: 30px;
 }
 
-.ai-button {
+.submit-button {
   background: #af9451;
   color: #fff;
   border: none;
   padding: 10px 15px;
   font-size: 1rem;
   border-radius: 8px;
+  margin-left: 4px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.ai-button:hover {
+.submit-button:hover {
   background: #8c6f51;
 }
 

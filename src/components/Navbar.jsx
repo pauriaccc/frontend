@@ -11,6 +11,7 @@ function Navbar() {
             <Link to="/lecturer">AI Lecturer</Link>
             <Link to="/journals">Journals</Link>
             <Link to="/dictionaries">Dictionaries</Link>
+            <Link to="/settings">Settings</Link>
         </nav>
     )
 }
