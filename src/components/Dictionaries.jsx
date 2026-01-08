@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-import DictionaryModal from "./DictionaryModal";
+import AddEditModal from "./AddEditModal";
 import Header from "./Header";
 import { useState, useEffect } from "react";
 import Dictionary from "./Dictionary";
@@ -110,7 +110,7 @@ function Dictionaries() {
     return (
         <>
             {showForm && (
-                <DictionaryModal
+                <AddEditModal
                     formData={formData}
                     setFormData={setFormData}
                     onSubmit={editingDictionary ? saveEditedDictionary : addNewDictionary}
@@ -120,13 +120,14 @@ function Dictionaries() {
                         setFormData({ title: "", content: "", tags: "" })
                     }}
                     isEditing={!!editingDictionary}
+                    isDictionary={true}
                 />
             )}
 
             <Navbar />
             <Header />
             <div className="main">
-                <div className="add-dictionary-container">
+                <div className="add-button-container">
                     <button
                         className="add-button"
                         onClick={() => {

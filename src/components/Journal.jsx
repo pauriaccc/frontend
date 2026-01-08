@@ -18,6 +18,8 @@ function Journal(props) {
         <article className="journal-entry-row">
             <div className="info-container">
                 <p className="journal-date">{formatDate(props.date)}</p>
+                <button className="journal-delete-button" onClick={() => props.onDelete(props.journalId)}> × </button>
+                <button className="journal-edit-button" onClick={props.onEdit}> ✎ </button>
                 <p className="journal-content">{props.content}</p>
                 <div className="tags">
                     {props.tags &&

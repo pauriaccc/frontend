@@ -121,7 +121,7 @@ body {
   margin-top: 20px;
 }
 
-.add-dictionary-container {
+.add-button-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -344,6 +344,52 @@ display: none;
    color: #fff;
    margin: 0;
  }
+
+/* Journal Buttons */
+/* Journal Edit & Delete Buttons */
+.journal-edit-button,
+.journal-delete-button {
+    position: absolute;
+    top: 10px;
+    background: #af9451;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    display: none;
+}
+
+.journal-edit-button {
+    right: 50px;
+}
+
+.journal-delete-button {
+    right: 10px;
+}
+
+.journal-edit-button:hover,
+.journal-delete-button:hover {
+    background: #8c6f51;
+    transform: translateY(-1px);
+}
+
+.journal-edit-button:active,
+.journal-delete-button:active {
+    transform: scale(0.95);
+}
+
+.journal-entry-row:hover .journal-edit-button,
+.journal-entry-row:hover .journal-delete-button {
+    display: inline-block;
+}
+
+.journal-entry-row {
+    position: relative;
+}
 
 /* AI Lecturer Styling */
 .ai-lecturer-card {
