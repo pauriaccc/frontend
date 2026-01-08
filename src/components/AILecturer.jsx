@@ -15,7 +15,9 @@ function AILecturer() {
         setTalking(false)
         setMessage("")
 
-        fetch(`http://localhost:8080/api/ai?prompt=${encodeURIComponent(prompt)}`)
+        const systemPrompt = "Explain the following in a short, clear, and simple way that a first-year computer science undergraduate university student would understand. Keep the answer concise and avoid technical jargon: "
+
+        fetch(`http://localhost:8080/api/ai?prompt=${encodeURIComponent(systemPrompt + prompt)}`)
             .then((response) => response.text())
             .then((data) => {
                 setMessage(data)
