@@ -1,7 +1,7 @@
 import Navbar from "./Navbar";
-import Header from "./Header";
 import { useState, useEffect } from "react";
 import Journal from "./Journal";
+import Footer from "./Footer";
 import AddEditModal from "./AddEditModal";
 
 function Journals() {
@@ -119,7 +119,6 @@ function Journals() {
             )}
 
             <Navbar />
-            <Header />
             <div className="main">
                 <div className="add-button-container">
                     <button
@@ -134,6 +133,7 @@ function Journals() {
                 </div>
                 <div className="journal-grid">{journalComponents}</div>
             </div>
+            <Footer />
         </>
     );
 }

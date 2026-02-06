@@ -1,8 +1,8 @@
 import Navbar from "./Navbar";
 import AddEditModal from "./AddEditModal";
-import Header from "./Header";
 import { useState, useEffect } from "react";
 import Dictionary from "./Dictionary";
+import Footer from "./Footer";
 
 function Dictionaries() {
     const [dictionaries, setDictionaries] = useState([])
@@ -125,7 +125,6 @@ function Dictionaries() {
             )}
 
             <Navbar />
-            <Header />
             <div className="main">
                 <div className="add-button-container">
                     <button
@@ -142,6 +141,7 @@ function Dictionaries() {
                     {dictionaryComponents}
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

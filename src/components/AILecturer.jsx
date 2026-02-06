@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Navbar from "./Navbar";
-import Header from "./Header";
+import Footer from "./Footer";
 import logo from "../images/logo.png";
 
 function AILecturer() {
@@ -34,8 +34,7 @@ function AILecturer() {
     return (
         <>
             <Navbar />
-            <Header />
-            <div className="main">
+            <div className="main ai-page">
                 <div className="ai-lecturer-card">
                     <div className="ai-lecturer">
                         <img
@@ -72,6 +71,7 @@ function AILecturer() {
                     )}
                 </div>
             </div>
+            <Footer />
         </>
     )
 }
