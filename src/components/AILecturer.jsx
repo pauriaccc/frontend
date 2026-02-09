@@ -8,16 +8,16 @@ function AILecturer() {
     const [prompt, setPrompt] = useState("")
     const [loading, setLoading] = useState(false)
     const [talking, setTalking] = useState(false)
+    const [saved, setSaved] = useState(false);
 
     function callBackend(event) {
         event.preventDefault()
         setLoading(true)
         setTalking(false)
         setMessage("")
+        setSaved(false);
 
-        const systemPrompt = "Explain the following in a short, clear, and simple way that a first-year computer science undergraduate university student would understand. Keep the answer concise and avoid technical jargon: "
-
-        fetch(`http://localhost:8080/api/ai?prompt=${encodeURIComponent(systemPrompt + prompt)}`)
+        fetch(`http://localhost:8080/api/ai?prompt=${encodeURIComponent(prompt)}`)
             .then((response) => response.text())
             .then((data) => {
                 setMessage(data)
@@ -29,6 +29,25 @@ function AILecturer() {
                 setMessage("Failed to fetch message.")
                 setLoading(false)
             })
+    }
+
+    function saveResponseToNotepad() { //Could Dictionary save method be called?
+        const newDictionary = {
+            dictionaryId: crypto.randomUUID(),
+            studentId: "STU001",
+            title: prompt || "AI Explanation",
+            content: message,
+            createdTs: new Date().toISOString().split("T")[0],
+            tags: ["AI Lecturer"],
+        };
+
+        fetch("http://localhost:8080/api/dictionaries/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newDictionary),
+        })
+            .then(() => setSaved(true))
+            .catch(console.error);
     }
 
     return (
@@ -65,8 +84,26 @@ function AILecturer() {
                         <button className="submit-button" type="submit">Send</button>
                     </form>
                     {message && (
-                        <div className="ai-response">
-                            <strong>{message}</strong>
+                        <div className="ai-response-wrapper">
+                            <div className="ai-response-card">
+                                <div className="ai-response-header">
+                                    <span className="ai-badge">AI</span>
+                                    <span className="ai-response-title">Explanation</span>
+                                </div>
+
+                                <div className="ai-response-content">
+                                    {message}
+                                </div>
+                            </div>
+
+                            <div className="ai-response-actions">
+                                <button
+                                    className="submit-button"
+                                    onClick={saveResponseToNotepad}
+                                    disabled={saved}
+                                > {saved ? "Saved ✓" : "Save"}
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

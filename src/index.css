@@ -498,9 +498,19 @@ display: none;
 }
 
 .ai-lecturer .logoImage {
-    width: 300px;
-    height: auto;
-    margin-bottom: 0px;
+  width: 300px;
+  height: auto;
+  margin-bottom: 0px;
+  transition: transform 0.3s ease, filter 0.3s ease, drop-shadow 0.3s ease;
+  transform-origin: center;
+  cursor: pointer;
+}
+
+.ai-lecturer .logoImage:hover {
+  transform: scale(1.08) rotateZ(2deg);
+  filter:
+    drop-shadow(-10px 0 10px rgba(255, 105, 180, 0.7))
+    drop-shadow(10px 0 10px rgba(255, 216, 102, 0.7));
 }
 
 .ai-input {
@@ -553,12 +563,75 @@ display: none;
   transform: translateY(-2px) scale(1.02);
 }
 
-.ai-response {
-  background: #af9451;
-  padding: 15px;
-  border-radius: 8px;
-  color: #fff;
+.ai-response-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.ai-response-card {
+  background: #403e41;
+  margin-left: 150px;
+  border-radius: 14px;
+  padding: 18px 20px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  border-left: 5px solid #ad9552;
+}
+.ai-response-wrapper {
+  animation: fadeUp 0.3s ease-out;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-response-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ai-badge {
+  background: linear-gradient(to right, #de5977 0%, #fed966 100%);
+  color: black;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.ai-response-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.ai-response-content {
+  font-family: 'Nunito', monospace;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #FFFFFF;
   white-space: pre-wrap;
+}
+
+.ai-response-actions {
+  width: 190px;
+  display: flex;
+  align-items: flex-end;
+  padding-top: 12px;
 }
 
 /* AI Lecturer Animations */
