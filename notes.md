@@ -7,12 +7,15 @@
 #ad9552 - Dark Yellow
 
 ==ToDo==
-[] refactor BE endpoints and tests
+[X] refactor BE endpoints and tests
 [X] Make Searchbar a component?
 [X] Searching Notes and Journals
+[X] Saving Ai > Notepad
+[X] Login/CA UI template
+[] Login Flow
+
 ----
-[] Saving Ai > Notepad
-[] How to make notepad look better - stuff up/down
+[] How to make notepad look better - stuff up/down - stick tags to end?
 [] Functionality Errors & Boundaries - e.g entering no data, limit tag amt? Add 'No Results Found'
 [] Dashboard Design
 [] Dictionary to notepad Refactor

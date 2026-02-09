@@ -9,7 +9,7 @@ function LandingPage() {
 
   return (
     <>
-      <LandingHeader />
+      <LandingHeader isLandingPage={true}/>
       <section className="landing-hero">
           <div className="hero-left">
               <h1>Own Your <Typewriter words={["Placement.", "Internship.", "Grad Role.", "Career."]}/></h1>

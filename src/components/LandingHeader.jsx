@@ -1,17 +1,23 @@
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
 
-function LandingHeader() {
+function LandingHeader(props) {
   return (
     <div>
         <nav className="landing-header">
-            <div className="landingLogoDiv">
-                 <h3 className="logoText">PlacementPal</h3>
-                <img className="logoImage" src={logo} alt="Placement Pal Logo"/>
-            </div>
+            <Link to="/" className="landingLogoDiv" style={{ textDecoration: "none" }}>
+                    <h3 className="logoText">PlacementPal</h3>
+                    <img className="logoImage" src={logo} alt="Placement Pal Logo" />
+            </Link>
             <div className="landing-links">
-                <Link to="/createaccount">Sign Up</Link>
-                <Link to="/login">Login</Link>
+                {props.isLandingPage && (
+                    <>
+                        <Link to="/createaccount">Sign Up</Link>
+                        <Link to="/login">Login</Link>
+                    </>
+                )}
+                {!props.isLandingPage && !props.isCreateAccount && <Link to="/createaccount">Sign Up</Link>}
+                {props.isCreateAccount && <Link to="/login">Login</Link>}
             </div>
         </nav>
     </div>

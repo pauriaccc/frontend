@@ -49,11 +49,6 @@ body, #root {
   margin-bottom: 40px;
 }
 
-.logoDiv:hover {
-  transform: scale(1.03);
-  transform: scale(1.03);
-}
-
 .logoImage {
   width: 50px;
   height: auto;
@@ -539,6 +534,7 @@ display: none;
 
 .submit-button {
   align-self: flex-end;
+  font-family: 'Source Code Pro', monospace;
   background: #dd5a7a;
   color: #fff;
   border: none;
@@ -706,6 +702,18 @@ display: none;
   color: #ffffff;
   padding: 0;
   line-height: 1;
+}
+
+.landingLogoDiv,
+.logoDiv {
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease, drop-shadow 0.25s ease;
+}
+
+.landingLogoDiv:hover,
+.logoDiv:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(255, 216, 102, 0.6));
 }
 
 .landing-links {
@@ -990,4 +998,134 @@ display: none;
 .footer strong {
   font-weight: 500;
   color: #ffffff;
+}
+
+/* Create Account Page */
+.account-page {
+  position: fixed;
+  inset: 0;
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #2d2a2e 80%, #ffd866 20%);
+  overflow: hidden;
+}
+
+.account-card {
+  background: #362c32;
+  border-radius: 20px;
+  padding: 55px 65px;
+  width: 100%;
+  max-width: 560px;
+  min-height: 520px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: fadeUp 0.4s ease-out;
+}
+
+.account-card h1 {
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+  color: #ffffff;
+}
+
+.account-card p {
+  margin: 0 0 20px 0;
+  text-align: center;
+  font-weight: 300;
+  color: #cccccc;
+}
+
+.account-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-input {
+  padding: 12px 14px;
+  font-family: 'Source Code Pro', monospace;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  background: #2d2a2e;
+  color: #ffffff;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.auth-input::placeholder {
+  color: #bdbdbd;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #ffd866;
+  box-shadow:
+    0 0 6px rgba(255, 216, 102, 0.4),
+    0 0 14px rgba(255, 216, 102, 0.25);
+  transform: translateY(-1px);
+}
+
+.auth-submit {
+  margin-top: 10px;
+  align-self: center;
+  width: 100%;
+}
+
+.date-input-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.date-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.date-field label {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #cccccc;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.auth-date {
+  padding: 13px 14px;
+}
+
+.auth-date::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.account-header-section {
+  border-bottom: 2px solid #ffd866;
+  padding-bottom: 16px;
+  margin-bottom: 22px;
+}
+
+.account-header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-bottom: 2px solid #ffd866;
+  margin-bottom: 26px;
+  gap: 5px;
+}
+
+.login-card {
+  min-height: 350px;
+  padding: 55px 65px;
 }
