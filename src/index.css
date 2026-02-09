@@ -18,8 +18,15 @@ code {
     monospace;
 }
 
-body {
+body, #root {
+  height: 100%;
   margin: 0;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* NAVBAR */
@@ -40,6 +47,11 @@ body {
   align-items: center;
   gap: 1px;
   margin-bottom: 40px;
+}
+
+.logoDiv:hover {
+  transform: scale(1.03);
+  transform: scale(1.03);
 }
 
 .logoImage {
@@ -81,6 +93,7 @@ body {
 
  /* Main */
 .main {
+  flex: 1;
   margin-left: 220px;
   padding: 20px;
   color: white;
@@ -135,7 +148,7 @@ body {
   margin-top: 20px;
 }
 
-.add-button-container {
+.add-search-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -408,9 +421,51 @@ display: none;
     position: relative;
 }
 
+/* Search Bar */
+.searchbar {
+  width: 260px;
+  padding: 10px 14px;
+  background: #2d2a2e;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-family: 'Source Code Pro', monospace;
+  box-sizing: border-box;
+  position: absolute;
+  right: 30px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.searchbar::placeholder {
+  color: #bdbdbd;
+  font-weight: 300;
+}
+
+.searchbar:focus {
+  outline: none;
+  border-color: #ffd866;
+  box-shadow:
+    0 0 6px rgba(255, 216, 102, 0.4),
+    0 0 14px rgba(255, 216, 102, 0.25);
+  transform: translateY(-1px);
+}
+
+.searchbar:hover {
+  border-color: rgba(255, 216, 102, 0.8);
+}
+
+.searchbar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* AI Lecturer Styling */
 .ai-page {
-  min-height: calc(94vh - 80px);
+  min-height: calc(94.5vh - 80px);
 }
 
 .ai-lecturer-card {
@@ -450,6 +505,7 @@ display: none;
 
 .ai-input {
   padding: 10px 12px;
+  font-family: 'Source Code Pro', monospace;
   border-radius: 8px;
   border: 1px solid #fff;
   font-size: 1rem;

@@ -3,16 +3,14 @@ import AddEditModal from "./AddEditModal";
 import { useState, useEffect } from "react";
 import Dictionary from "./Dictionary";
 import Footer from "./Footer";
+import Searchbar from "./Searchbar";
 
 function Dictionaries() {
-    const [dictionaries, setDictionaries] = useState([])
-    const [showForm, setShowForm] = useState(false)
-    const [formData, setFormData] = useState({
-        title: "",
-        content: "",
-        tags: "",
-    })
-    const [editingDictionary, setEditingDictionary] = useState(null)
+    const [dictionaries, setDictionaries] = useState([]);
+    const [showForm, setShowForm] = useState(false);
+    const [formData, setFormData] = useState({ title: "", content: "", tags: "" });
+    const [editingDictionary, setEditingDictionary] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
     function fetchDictionaries() {
         fetch("http://localhost:8080/api/dictionaries/STU001")
@@ -21,9 +19,22 @@ function Dictionaries() {
             .catch(console.error)
     }
 
+    function fetchDictionariesByQuery(query) {
+        const baseUrl = "http://localhost:8080/api/dictionaries/STU001/search"
+        const url = query.trim() ? `${baseUrl}?query=${encodeURIComponent(query)}` : "http://localhost:8080/api/dictionaries/STU001"
+
+        fetch(url)
+            .then((res) => res.json())
+            .then((data) => setDictionaries(data))
+            .catch(console.error)
+    }
+
     useEffect(() => {
-        fetchDictionaries()
-    }, [])
+        const timeout = setTimeout(() => fetchDictionariesByQuery(searchTerm), 300);
+        return () => clearTimeout(timeout)
+    }, [searchTerm])
+
+    useEffect(() => fetchDictionaries(), [])
 
     function saveEditedDictionary() {
         const updatedDictionary = {
@@ -108,7 +119,7 @@ function Dictionaries() {
     ))
 
     return (
-        <>
+        <div className="page-container">
             {showForm && (
                 <AddEditModal
                     formData={formData}
@@ -126,7 +137,7 @@ function Dictionaries() {
 
             <Navbar />
             <div className="main">
-                <div className="add-button-container">
+                <div className="add-search-container">
                     <button
                         className="add-button"
                         onClick={() => {
@@ -136,13 +147,16 @@ function Dictionaries() {
                         }}
                     > +
                     </button>
+                    <Searchbar
+                            value={searchTerm}
+                            onChange={setSearchTerm}
+                            words={["Title...", "Content...", "Tags..."]}
+                        />
                 </div>
-                <div className="dictionary-grid">
-                    {dictionaryComponents}
-                </div>
+                <div className="dictionary-grid">{dictionaryComponents}</div>
             </div>
             <Footer />
-        </>
+        </div>
     )
 }
 

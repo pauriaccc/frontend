@@ -1,49 +1,18 @@
-import { useState, useEffect, useMemo } from "react";
 import LandingHeader from "./LandingHeader";
 import Footer from "./Footer";
+import Typewriter from "./Typewriter";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
 
 function LandingPage() {
-  const words = useMemo(() => ["Placement.", "Internship.", "Grad Role.", "Career."],[]);
-
-  const [text, setText] = useState("");
-  const [wordIndex, setWordIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
-  const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const currentWord = words[wordIndex];
-
-    let timeout = setTimeout(() => {
-      if (!deleting) {
-        setText(currentWord.slice(0, charIndex + 1));
-        setCharIndex(charIndex + 1);
-
-        if (charIndex + 1 === currentWord.length) {
-          setTimeout(() => setDeleting(true), 1000);
-        }
-      } else {
-        setText(currentWord.slice(0, charIndex - 1));
-        setCharIndex(charIndex - 1);
-
-        if (charIndex - 1 === 0) {
-          setDeleting(false);
-          setWordIndex((wordIndex + 1) % words.length);
-        }
-      }
-    }, deleting ? 100 : 150);
-
-    return () => clearTimeout(timeout);
-  }, [charIndex, deleting, wordIndex, words]);
 
   return (
     <>
       <LandingHeader />
       <section className="landing-hero">
           <div className="hero-left">
-              <h1>Own Your <span id="dynamic-text">{text}</span></h1>
+              <h1>Own Your <Typewriter words={["Placement.", "Internship.", "Grad Role.", "Career."]}/></h1>
               <h2> Built by placement students, for placement students to help you succeed during industrial placement — and stand out after. </h2>
               <button className="submit-button" onClick={() => navigate("/createaccount")}> Get Started </button>
           </div>

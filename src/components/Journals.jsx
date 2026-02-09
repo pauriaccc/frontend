@@ -3,26 +3,35 @@ import { useState, useEffect } from "react";
 import Journal from "./Journal";
 import Footer from "./Footer";
 import AddEditModal from "./AddEditModal";
+import Searchbar from "./Searchbar";
 
 function Journals() {
     const [journals, setJournals] = useState([]);
     const [showForm, setShowForm] = useState(false);
-    const [formData, setFormData] = useState({
-        content: "",
-        tags: "",
-    });
+    const [formData, setFormData] = useState({ content: "", tags: "" });
     const [editingJournal, setEditingJournal] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
 
-    function fetchJournals() {
-        fetch("http://localhost:8080/api/journals/STU001")
+    function fetchJournals(search = "") {
+        const baseUrl = "http://localhost:8080/api/journals/STU001/search";
+        const url = search.trim()
+            ? `${baseUrl}?query=${encodeURIComponent(search)}`
+            : "http://localhost:8080/api/journals/STU001";
+
+        fetch(url)
             .then((res) => res.json())
-            .then((data) => setJournals(data))
+            .then((data) => {
+                setJournals(Array.isArray(data) ? data : data ? [data] : []);
+            })
             .catch(console.error);
     }
 
     useEffect(() => {
-        fetchJournals();
-    }, []);
+        const timeout = setTimeout(() => fetchJournals(searchTerm), 300);
+        return () => clearTimeout(timeout);
+    }, [searchTerm]);
+
+    useEffect(() => fetchJournals(), []);
 
     function addNewJournal() {
         const newJournal = {
@@ -30,10 +39,7 @@ function Journals() {
             studentId: "STU001",
             content: formData.content,
             createdTs: new Date().toISOString().split("T")[0],
-            tags: formData.tags
-                .split(",")
-                .map((tag) => tag.trim())
-                .filter(Boolean),
+            tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
         };
 
         fetch("http://localhost:8080/api/journals/add", {
@@ -53,10 +59,7 @@ function Journals() {
         const updatedJournal = {
             ...editingJournal,
             content: formData.content,
-            tags: formData.tags
-                .split(",")
-                .map((tag) => tag.trim())
-                .filter(Boolean),
+            tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
         };
 
         fetch("http://localhost:8080/api/journals/update", {
@@ -102,7 +105,7 @@ function Journals() {
     ));
 
     return (
-        <>
+        <div className="page-container">
             {showForm && (
                 <AddEditModal
                     formData={formData}
@@ -120,7 +123,7 @@ function Journals() {
 
             <Navbar />
             <div className="main">
-                <div className="add-button-container">
+                <div className="add-search-container">
                     <button
                         className="add-button"
                         onClick={() => {
@@ -128,13 +131,17 @@ function Journals() {
                             setFormData({ content: "", tags: "" });
                             setShowForm(true);
                         }}
-                    > +
-                    </button>
+                    > + </button>
+                    <Searchbar
+                        value={searchTerm}
+                        onChange={setSearchTerm}
+                        words={["Content...", "YYYY-MM-DD...", "Tags..."]}
+                    />
                 </div>
                 <div className="journal-grid">{journalComponents}</div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 }
 
