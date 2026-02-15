@@ -12,6 +12,8 @@
 [X] Searching Notes and Journals
 [X] Saving Ai > Notepad
 [X] Login/CA UI template
+[X] Admin Panel
+[X] Student BE Endpoints
 [] Login Flow
 
 ----

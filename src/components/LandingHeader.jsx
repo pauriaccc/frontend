@@ -16,8 +16,9 @@ function LandingHeader(props) {
                         <Link to="/login">Login</Link>
                     </>
                 )}
-                {!props.isLandingPage && !props.isCreateAccount && <Link to="/createaccount">Sign Up</Link>}
+                {!props.isAdminPanel && !props.isLandingPage && !props.isCreateAccount && <Link to="/createaccount">Sign Up</Link>}
                 {props.isCreateAccount && <Link to="/login">Login</Link>}
+                {props.isAdminPanel && <Link to="/">Log Out</Link>}
             </div>
         </nav>
     </div>

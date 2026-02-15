@@ -33,7 +33,7 @@ function AILecturer() {
 
     function saveResponseToNotepad() { //Could Dictionary save method be called?
         const newDictionary = {
-            dictionaryId: crypto.randomUUID(),
+            dictionaryId: "N" + crypto.randomUUID().slice(0, 5),
             studentId: "STU001",
             title: prompt || "AI Explanation",
             content: message,

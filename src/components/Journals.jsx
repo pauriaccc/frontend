@@ -35,7 +35,7 @@ function Journals() {
 
     function addNewJournal() {
         const newJournal = {
-            journalId: crypto.randomUUID(),
+            journalId: "J" + crypto.randomUUID().slice(0, 5),
             studentId: "STU001",
             content: formData.content,
             createdTs: new Date().toISOString().split("T")[0],
