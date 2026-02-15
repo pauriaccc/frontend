@@ -34,8 +34,7 @@ function AILecturer() {
     function saveResponseToNotepad() { //Could Dictionary save method be called?
         const newDictionary = {
             dictionaryId: "N" + crypto.randomUUID().slice(0, 5),
-            studentId: "STU001",
-            title: prompt || "AI Explanation",
+            title:  prompt ? prompt.charAt(0).toUpperCase() + prompt.slice(1) : "AI Explanation",
             content: message,
             createdTs: new Date().toISOString().split("T")[0],
             tags: ["AI Lecturer"],
@@ -44,6 +43,7 @@ function AILecturer() {
         fetch("http://localhost:8080/api/dictionaries/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify(newDictionary),
         })
             .then(() => setSaved(true))

@@ -13,17 +13,19 @@ function Dictionaries() {
     const [searchTerm, setSearchTerm] = useState("");
 
     function fetchDictionaries() {
-        fetch("http://localhost:8080/api/dictionaries/STU001")
+        fetch("http://localhost:8080/api/dictionaries", {
+            credentials: "include"
+        })
             .then((res) => res.json())
             .then((data) => setDictionaries(data))
             .catch(console.error)
     }
 
     function fetchDictionariesByQuery(query) {
-        const baseUrl = "http://localhost:8080/api/dictionaries/STU001/search"
-        const url = query.trim() ? `${baseUrl}?query=${encodeURIComponent(query)}` : "http://localhost:8080/api/dictionaries/STU001"
+        const baseUrl = "http://localhost:8080/api/dictionaries/search"
+        const url = query.trim() ? `${baseUrl}?query=${encodeURIComponent(query)}` : "http://localhost:8080/api/dictionaries"
 
-        fetch(url)
+        fetch(url, { credentials: "include" })
             .then((res) => res.json())
             .then((data) => setDictionaries(data))
             .catch(console.error)
@@ -51,6 +53,7 @@ function Dictionaries() {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedDictionary),
+            credentials: "include"
         })
             .then(() => fetchDictionaries())
             .then(() => {
@@ -64,7 +67,6 @@ function Dictionaries() {
     function addNewDictionary() {
         const newDictionary = {
             dictionaryId: crypto.randomUUID(),
-            studentId: "STU001",
             title: formData.title,
             content: formData.content,
             createdTs: new Date().toISOString().split("T")[0],
@@ -78,6 +80,7 @@ function Dictionaries() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newDictionary),
+            credentials: "include"
         })
             .then(() => fetchDictionaries())
             .then(() => {
@@ -89,8 +92,8 @@ function Dictionaries() {
 
     function handleDelete(dictionaryId) {
         fetch(
-            `http://localhost:8080/api/dictionaries/delete/STU001/${dictionaryId}`,
-            { method: "DELETE" }
+            `http://localhost:8080/api/dictionaries/delete/${dictionaryId}`,
+            { method: "DELETE", credentials: "include" }
         )
             .then(() => fetchDictionaries())
             .catch(console.error)

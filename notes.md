@@ -13,8 +13,12 @@
 [X] Saving Ai > Notepad
 [X] Login/CA UI template
 [X] Admin Panel
-[X] Student BE Endpoints
-[] Login Flow
+[X] Student BE Endpoints - for login/CA
+[X] Login Controller Tests
+[] Refactor Journals to use cookie
+[] Global search for hardcoded STU001
+[] CA BE
+[] Login and CA Working
 
 ----
 [] How to make notepad look better - stuff up/down - stick tags to end?
