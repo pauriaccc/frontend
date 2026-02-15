@@ -1223,15 +1223,15 @@ display: none;
 
 
 .admin-actions {
-padding-right: 50px;
+    padding-right: 50px;
 }
 
 .admin-row .journal-edit-button {
-    right: 145px;
+    right: 160px;
 }
 
 .admin-row .journal-delete-button {
-    right: 105px;
+    right: 120px;
 }
 
 .date-input {

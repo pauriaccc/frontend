@@ -36,7 +36,6 @@ function AILecturer() {
             dictionaryId: "N" + crypto.randomUUID().slice(0, 5),
             title:  prompt ? prompt.charAt(0).toUpperCase() + prompt.slice(1) : "AI Explanation",
             content: message,
-            createdTs: new Date().toISOString().split("T")[0],
             tags: ["AI Lecturer"],
         };
 

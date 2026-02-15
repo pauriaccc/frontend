@@ -15,8 +15,11 @@
 [X] Admin Panel
 [X] Student BE Endpoints - for login/CA
 [X] Login Controller Tests
-[] Refactor Journals to use cookie
-[] Global search for hardcoded STU001
+[X] Journal search change
+[X] Refactor Journals to use cookie
+[X] Journal BE tests
+[X] Global search for hardcoded STU001
+
 [] CA BE
 [] Login and CA Working
 

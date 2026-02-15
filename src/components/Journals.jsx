@@ -12,22 +12,29 @@ function Journals() {
     const [editingJournal, setEditingJournal] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
-    function fetchJournals(search = "") {
-        const baseUrl = "http://localhost:8080/api/journals/STU001/search";
-        const url = search.trim()
-            ? `${baseUrl}?query=${encodeURIComponent(search)}`
-            : "http://localhost:8080/api/journals/STU001";
+    function fetchJournals() {
+        fetch("http://localhost:8080/api/journals" , {
+            credentials: "include"
+           })
+       .then((res) => res.json())
+               .then((data) => {
+                   setJournals(data);
+               })
+           .catch(console.error);
+    }
 
-        fetch(url)
+    function fetchJournalsByQuery(search) {
+        const baseUrl = "http://localhost:8080/api/journals/search";
+        const url = search.trim() ? `${baseUrl}?query=${encodeURIComponent(search)}` : "http://localhost:8080/api/journals";
+
+        fetch(url, { credentials: "include" })
             .then((res) => res.json())
-            .then((data) => {
-                setJournals(Array.isArray(data) ? data : data ? [data] : []);
-            })
+            .then((data) => { setJournals(data)})
             .catch(console.error);
     }
 
     useEffect(() => {
-        const timeout = setTimeout(() => fetchJournals(searchTerm), 300);
+        const timeout = setTimeout(() => fetchJournalsByQuery(searchTerm), 300);
         return () => clearTimeout(timeout);
     }, [searchTerm]);
 
@@ -36,9 +43,7 @@ function Journals() {
     function addNewJournal() {
         const newJournal = {
             journalId: "J" + crypto.randomUUID().slice(0, 5),
-            studentId: "STU001",
             content: formData.content,
-            createdTs: new Date().toISOString().split("T")[0],
             tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
         };
 
@@ -46,6 +51,7 @@ function Journals() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newJournal),
+            credentials: "include"
         })
             .then(() => fetchJournals())
             .then(() => {
@@ -66,6 +72,7 @@ function Journals() {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedJournal),
+            credentials: "include"
         })
             .then(() => fetchJournals())
             .then(() => {
@@ -86,9 +93,9 @@ function Journals() {
     }
 
     function handleDelete(journalId) {
-        fetch(`http://localhost:8080/api/journals/delete/STU001/${journalId}`, {
-            method: "DELETE",
-        })
+        fetch(`http://localhost:8080/api/journals/delete/${journalId}`,
+            { method: "DELETE", credentials: "include" }
+        )
             .then(() => fetchJournals())
             .catch(console.error);
     }

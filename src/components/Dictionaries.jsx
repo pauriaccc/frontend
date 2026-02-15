@@ -69,7 +69,6 @@ function Dictionaries() {
             dictionaryId: crypto.randomUUID(),
             title: formData.title,
             content: formData.content,
-            createdTs: new Date().toISOString().split("T")[0],
             tags: formData.tags
                 .split(",")
                 .map((tag) => tag.trim())
