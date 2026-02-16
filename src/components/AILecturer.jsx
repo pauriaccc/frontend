@@ -119,12 +119,15 @@ function AILecturer() {
                             </div>
 
                             <div className="ai-response-actions">
-                                <button
+                                {!message.trim().startsWith("Oops!") && (
+                                  <button
                                     className="submit-button"
                                     onClick={saveResponseToNotepad}
                                     disabled={saved}
-                                > {saved ? "Saved ✓" : "Save"}
-                                </button>
+                                  >
+                                    {saved ? "Saved ✓" : "Save"}
+                                  </button>
+                                )}
                             </div>
                         </div>
                     )}

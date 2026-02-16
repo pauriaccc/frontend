@@ -634,6 +634,9 @@ display: none;
 /* AI Lecturer Animations */
 .talking {
   animation: talkBounce 0.35s infinite ease-in-out;
+  filter:
+    drop-shadow(-10px 0 10px rgba(255, 105, 180, 0.7))
+    drop-shadow(10px 0 10px rgba(255, 216, 102, 0.7));
 }
 
 @keyframes talkBounce {
