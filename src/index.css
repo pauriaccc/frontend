@@ -1134,6 +1134,28 @@ display: none;
   padding: 55px 65px;
 }
 
+.account-card .create-account-error {
+    color: red;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.account-login-text {
+  text-align: center;
+  margin-top: 15px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.account-login-link {
+  color: #ffd866;
+  text-decoration: none;
+}
+
+.account-login-link:hover {
+  text-decoration: underline;
+}
+
 /* ADMIN PANEL */
 
 .admin-page {

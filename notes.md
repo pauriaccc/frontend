@@ -19,12 +19,11 @@
 [X] Refactor Journals to use cookie
 [X] Journal BE tests
 [X] Global search for hardcoded STU001
-
 [] First login messages (arrows pointing to add || placeholder entries?)
-[] procedural ai response
-[] CA BE
-[] Settings page - call to BE for info
-[] Login and CA Working
+[X] CA BE
+[X] CA Validation
+[X] Settings page Template- call to BE for info
+[X] Login and CA Working
 
 ----
 [] How to make notepad look better - stuff up/down - stick tags to end?

@@ -64,9 +64,9 @@ function Login() {
             />
             <button className="submit-button auth-submit">Login</button>
           </form>
-          {error && <p style={{ color: "#dd5a7a" }}>{error}</p>}
-          <p style={{ textAlign: "center", marginTop: "15px", color: "#ccc", fontSize: "0.9rem" }}>
-            Don't have an account? <a href="/createaccount" style={{ color: "#ffd866", textDecoration: "none" }}>Sign Up</a>
+          {error && <p className="create-account-error">{error}</p>}
+          <p className="account-login-text">
+            Don't have an account? <a href="/createaccount" className="account-login-link">Sign Up</a>
           </p>
         </div>
       </div>

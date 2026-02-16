@@ -7,7 +7,7 @@ function Dashboard() {
             <Navbar />
             <div className="main">
                 <h1>Dashboard</h1>
-                <h1>Welcome {studentName}</h1>
+                <p>Welcome {studentName}</p>
             </div>
         </>
     )
