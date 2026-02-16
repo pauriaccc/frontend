@@ -20,7 +20,10 @@
 [X] Journal BE tests
 [X] Global search for hardcoded STU001
 
+[] First login messages (arrows pointing to add || placeholder entries?)
+[] procedural ai response
 [] CA BE
+[] Settings page - call to BE for info
 [] Login and CA Working
 
 ----
@@ -28,3 +31,5 @@
 [] Functionality Errors & Boundaries - e.g entering no data, limit tag amt? Add 'No Results Found'
 [] Dashboard Design
 [] Dictionary to notepad Refactor
+[] Levelling
+[] Reminders

@@ -31,6 +31,29 @@ function AILecturer() {
             })
     }
 
+//      function callBackendStream(event) {
+//        event.preventDefault();
+//        setLoading(true);
+//        setTalking(false);
+//        setMessage("");
+//        setSaved(false);
+//
+//        const url = `http://localhost:8080/api/ai/stream?prompt=${encodeURIComponent(prompt)}`;
+//        const es = new EventSource(url);
+//
+//        es.onmessage = (e) => {
+//          setMessage(prev => prev + e.data + " ");
+//          setLoading(false);
+//          setTalking(true);
+//        };
+//
+//        es.onerror = () => {
+//          es.close();
+//          setTalking(false);
+//          setLoading(false);
+//        };
+//      }
+
     function saveResponseToNotepad() { //Could Dictionary save method be called?
         const newDictionary = {
             dictionaryId: "N" + crypto.randomUUID().slice(0, 5),
