@@ -149,13 +149,21 @@ function Dictionaries() {
                         }}
                     > +
                     </button>
-                    <Searchbar
+                    {dictionaries.length !== 0 && <Searchbar
                             value={searchTerm}
                             onChange={setSearchTerm}
                             words={["Title...", "Content...", "Tags..."]}
                         />
+                    }
                 </div>
-                <div className="dictionary-grid">{dictionaryComponents}</div>
+                <div className="dictionary-grid">
+                    {dictionaries.length === 0 ? (
+                        <div className="empty-state">
+                            <p className="empty-text"> You don’t have any notes yet. </p>
+                            <p className="empty-hint">Click the <span className="plus">+</span> above to add your first note!</p>
+                        </div>
+                    ) : (dictionaryComponents)}
+                </div>
             </div>
             <Footer />
         </div>

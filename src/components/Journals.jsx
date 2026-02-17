@@ -139,13 +139,21 @@ function Journals() {
                             setShowForm(true);
                         }}
                     > + </button>
-                    <Searchbar
+                    {journals.length !== 0 && <Searchbar
                         value={searchTerm}
                         onChange={setSearchTerm}
                         words={["Content...", "YYYY-MM-DD...", "Tags..."]}
-                    />
+                        />
+                    }
                 </div>
-                <div className="journal-grid">{journalComponents}</div>
+                <div className="journal-grid">
+                  {journals.length === 0 ? (
+                    <div className="empty-state">
+                      <p className="empty-text"> You don’t have any journals yet. </p>
+                      <p className="empty-hint"> Click the <span className="plus">+</span> above to add your first journal! </p>
+                    </div>
+                  ) : (journalComponents)}
+                </div>
             </div>
             <Footer />
         </div>

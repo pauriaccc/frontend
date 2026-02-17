@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
 function Settings() {
   const [student, setStudent] = useState(null);
@@ -56,6 +57,9 @@ function Settings() {
                 </p>
               ))}
             </div>
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <button className="submit-button">Log Out</button>
+            </Link>
           </div>
         )}
       </div>

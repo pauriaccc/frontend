@@ -140,13 +140,17 @@ body, #root {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
-  margin-top: 20px;
 }
 
 .add-search-container {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+.dictionary-grid .empty-state {
+  grid-column: 1 / -1;
+  width: 100%;
 }
 
 /* Plus button styling */
@@ -415,6 +419,34 @@ display: none;
 
 .journal-entry-row {
     position: relative;
+}
+
+.empty-state {
+  margin-top: 80px;
+  text-align: center;
+  color: #cccccc;
+  font-family: 'Source-Code-Pro', monospace;
+  animation: fadeUp 0.3s ease-out;
+}
+
+.empty-text {
+  font-size: 1.4rem;
+  margin: 0 0 10px 0;
+  color: #ffffff;
+}
+
+.empty-hint {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.plus {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #ffd866;
+  margin: 0 4px;
+  transform: translateY(2px);
 }
 
 /* Search Bar */
