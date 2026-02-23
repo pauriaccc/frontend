@@ -1456,7 +1456,7 @@ display: none;
     transform: rotate(15deg) scale(1) translateY(0);
   }
   50% {
-    transform: rotate(15deg) scale(1.04) translateY(-2px);
+    transform: rotate(15deg) scale(1.06) translateY(-2px);
   }
 }
 
@@ -1492,7 +1492,7 @@ display: none;
 
 .dash-card-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: #fff;
 }
@@ -1612,7 +1612,7 @@ display: none;
   border-bottom: 2px solid rgba(255, 216, 102, 0.55);
   font-family: "Source Code Pro", monospace;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 14.5px;
 }
 
 .dash-mini-body {

@@ -23,6 +23,8 @@ function Login() {
       if (res.ok) {
         if (data.role === "student") {
           localStorage.setItem("studentName", data.name);
+          localStorage.setItem("placementStart", data.placementStart);
+          localStorage.setItem("placementEnd", data.placementEnd);
           navigate("/dashboard");
         } else if (data.role === "admin") {
           navigate("/admin");

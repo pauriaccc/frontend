@@ -3,96 +3,40 @@ import logo from "../images/logo.png";
 import Graph from "../images/graphplaceholder.png";
 import Typewriter from "./Typewriter";
 import Footer from "./Footer";
+import { getPlacementProgressAndLevel, getPlacementWeekTitle } from "../utils/HelperMethods";
+import { GREETINGS, QUIPS } from "../utils/Constants";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const navigate = useNavigate();
-
   const studentName = localStorage.getItem("studentName") || "Student";
-
-  const studentInitials = studentName
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
-
+  const placementStart = localStorage.getItem("placementStart");
+  const placementEnd = localStorage.getItem("placementEnd");
+  const { progress, level, status } = getPlacementProgressAndLevel(placementStart,placementEnd);
+  const progressPct = Math.round(progress * 100);
+  const navigate = useNavigate();
+  const studentInitials = studentName.split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join("");
   const [recentEntries, setRecentEntries] = useState([]);
   const [loadingRecent, setLoadingRecent] = useState(true);
-
-  const greetings = [
-    "Welcome",
-    "Hey",
-    "Hello",
-    "Welcome Back",
-    "Greetings",
-    "Hi There",
-    "Good To See You",
-    "Ready To Learn",
-  ];
-
-  const quips = [
-    "Let’s get it done.",
-    "Tiny steps count.",
-    "One more win today.",
-    "You’ve got this.",
-    "Progress > perfection.",
-    "Consistency beats intensity.",
-    "Momentum matters.",
-    "Future you will thank you.",
-    "Keep the streak alive.",
-    "Ship it.",
-    "Make it make sense.",
-    "Brains on. Let’s go.",
-    "Debug first. Panic later.",
-    "Compile your thoughts.",
-    "One bug at a time.",
-    "Readable > clever.",
-    "It works. Don’t touch it.",
-    "Push small. Push often.",
-    "Think, then type.",
-    "Don’t forget your journal!",
-    "Log it while it’s fresh.",
-    "Today counts.",
-    "Practice beats theory.",
-    "Learn once. Apply twice.",
-    "This will click soon.",
-    "You’re closer than you think.",
-    "Trust the process.",
-    `${studentName}, you’re building momentum.`,
-    `${studentName}, focus mode: activated.`,
-    `Small improvements, big future — ${studentName}.`,
-    `Stay consistent, ${studentName}.`,
-    `${studentName}, progress looks good on you.`,
-    `Lock in, ${studentName}.`,
-    `${studentName}, think like an engineer.`,
-    `Future ${studentName} appreciates this.`,
-    `Level up, ${studentName}.`,
-    `${studentName}, earn the streak.`,
-    `Keep your standards high, ${studentName}.`,
-    `${studentName}, discipline > motivation.`,
-    `${studentName}, master the basics.`,
-    `${studentName}, stay curious.`,
-  ];
+  const [hasTodayJournal, setHasTodayJournal] = useState(false);
+  const [loadingTodayJournal, setLoadingTodayJournal] = useState(true);
 
   const [greeting] = useState(() => {
-    return greetings[Math.floor(Math.random() * greetings.length)];
+    return GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
   });
 
   const [quip] = useState(() => {
+    const quips = QUIPS(studentName);
     return quips[Math.floor(Math.random() * quips.length)];
   });
 
-  const weekTitle = "Placement Week One";
+  const weekTitle = getPlacementWeekTitle(placementStart, placementEnd);
 
   useEffect(() => {
     let cancelled = false;
-
     async function loadRecent() {
       try {
         setLoadingRecent(true);
-
         const res = await fetch(
           "http://localhost:8080/api/dictionaries/recent",
           { credentials: "include" }
@@ -118,13 +62,36 @@ function Dashboard() {
         }
       }
     }
-
     loadRecent();
-
     return () => {
       cancelled = true;
     };
   }, []);
+
+useEffect(() => {
+  let cancelled = false;
+  async function checkTodayJournal() {
+    try {
+      setLoadingTodayJournal(true);
+      const res = await fetch("http://localhost:8080/api/journals/has-today", {
+        credentials: "include",
+      });
+
+      if (!cancelled) {
+        setHasTodayJournal(res.ok);
+      }
+    } catch (e) {
+      console.error(e);
+      if (!cancelled) setHasTodayJournal(false);
+    } finally {
+      if (!cancelled) setLoadingTodayJournal(false);
+    }
+  }
+  checkTodayJournal();
+  return () => {
+    cancelled = true;
+  };
+}, []);
 
   return (
     <>
@@ -179,7 +146,7 @@ function Dashboard() {
 
                     {!loadingRecent && recentEntries.length === 0 && (
                       <div className="dash-list-empty">
-                        No notes yet — click <b>New Entry</b> to add one.
+                       You don’t have any notes yet — click <b>New Entry</b> to add your first note!
                       </div>
                     )}
 
@@ -190,9 +157,7 @@ function Dashboard() {
                           className="dash-list-item"
                           type="button"
                           onClick={() =>
-                            navigate("/dictionaries", {
-                              state: { focusId: item.dictionaryId },
-                            })
+                            navigate("/dictionaries")
                           }
                         >
                           <div className="dash-list-text">
@@ -250,16 +215,22 @@ function Dashboard() {
                       <div className="dash-stats-name">
                         {studentName}
                       </div>
-                      <div className="dash-stats-level">
-                        Level 1
-                      </div>
+                     <div className="dash-stats-level">
+                       Level {level}
+                     </div>
 
-                      <div className="dash-progress">
-                        <div
-                          className="dash-progress-fill"
-                          style={{ width: "55%" }}
-                        />
-                      </div>
+                     <div className="dash-progress" aria-label="Placement progress">
+                       <div
+                         className="dash-progress-fill"
+                         style={{ width: `${progressPct}%` }}
+                       />
+                     </div>
+
+                     <div className="dash-mini-muted" style={{ marginTop: 8 }}>
+                       {status === "not_started" && `Starts on ${placementStart}`}
+                       {status === "in_progress" && `${progressPct}% through your placement.`}
+                       {status === "complete" && "Placement complete — well done!"}
+                     </div>
                     </div>
                   </div>
                 </div>
@@ -270,18 +241,22 @@ function Dashboard() {
                   </div>
                   <div className="dash-mini-body">
                     <div className="dash-mini-muted">
-                      You have not entered today's journal!
+                      {loadingTodayJournal
+                        ? "Checking today's journal…"
+                        : hasTodayJournal
+                          ? "You’ve entered today’s journal."
+                          : "You have not entered today's journal!"}
                     </div>
                     <button
                       className="dash-btn dash-btn-small"
                       type="button"
                       onClick={() =>
                         navigate("/journals", {
-                          state: { openNew: true },
+                          state: { openNew: !hasTodayJournal },
                         })
                       }
                     >
-                      Enter
+                      {hasTodayJournal ? "View" : "Enter"}
                     </button>
                   </div>
                 </div>
