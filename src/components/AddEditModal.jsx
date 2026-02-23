@@ -2,7 +2,7 @@ function AddEditModal(props) {
     return (
         <div className="modal-overlay">
             <div className="modal-card">
-                <h2>{props.isEditing ? props.isDictionary ? "Edit Dictionary" : "Edit Journal" : props.isDictionary ? "Add Dictionary" : "Add Journal"}</h2>
+                <h2>{props.isEditing ? props.isDictionary ? "Edit Note" : "Edit Journal" : props.isDictionary ? "Add Note" : "Add Journal"}</h2>
 
                 {props.isDictionary && (
                     <input

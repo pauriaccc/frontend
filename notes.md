@@ -19,12 +19,11 @@
 [X] Refactor Journals to use cookie
 [X] Journal BE tests
 [X] Global search for hardcoded STU001
-[] First login messages (arrows pointing to add || placeholder entries?)
+[X] First login messages (arrows pointing to add || placeholder entries?)
 [X] CA BE
 [X] CA Validation
 [X] Settings page Template- call to BE for info
 [X] Login and CA Working
-
 ----
 [] How to make notepad look better - stuff up/down - stick tags to end?
 [] Functionality Errors & Boundaries - e.g entering no data, limit tag amt? Add 'No Results Found'

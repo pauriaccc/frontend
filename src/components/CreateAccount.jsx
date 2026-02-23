@@ -72,7 +72,8 @@ function CreateAccount() {
         return;
       }
 
-      if (!/[!@#$%-^&*(),.?":{}|<>]/.test(password)) {
+      // eslint-disable-next-line
+      if (!/[!@#$%\^&*(),.?":{}|<>\-]/.test(password)) {
         setError("Password must contain at least one special character");
         return;
       }
