@@ -10,6 +10,7 @@ function Navbar() {
                 <h3 className="logoText">PlacementPal</h3>
                 <img className="logoImage" src={logo} alt="Placement Pal Logo"/>
             </div>
+            <Link to="/dashboard">Dashboard</Link>
             <Link to="/journals">Journals</Link>
             <Link to="/dictionaries">Notepad</Link>
             <Link to="/lecturer">AI Lecturer</Link>

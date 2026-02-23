@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import Dictionary from "./Dictionary";
 import Footer from "./Footer";
 import Searchbar from "./Searchbar";
+import { useLocation } from "react-router-dom";
 
 function Dictionaries() {
+    const location = useLocation();
     const [dictionaries, setDictionaries] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({ title: "", content: "", tags: "" });
@@ -107,6 +109,15 @@ function Dictionaries() {
         })
         setShowForm(true)
     }
+
+    useEffect(() => {
+      if (location.state?.openNew) {
+        setEditingDictionary(null);
+        setFormData({ title: "", content: "", tags: "" });
+        setShowForm(true);
+        window.history.replaceState({}, document.title);
+      }
+    }, [location.state]);
 
     const dictionaryComponents = dictionaries.map((dictionary) => (
         <Dictionary

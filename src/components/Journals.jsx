@@ -4,8 +4,10 @@ import Journal from "./Journal";
 import Footer from "./Footer";
 import AddEditModal from "./AddEditModal";
 import Searchbar from "./Searchbar";
+import { useLocation } from "react-router-dom";
 
 function Journals() {
+    const location = useLocation();
     const [journals, setJournals] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [formData, setFormData] = useState({ content: "", tags: "" });
@@ -110,6 +112,17 @@ function Journals() {
             onDelete={() => handleDelete(journal.journalId)}
         />
     ));
+
+    useEffect(() => {
+      if (location.state?.openNew) {
+        setEditingJournal(null);
+        setFormData({ content: "", tags: "" });
+        setShowForm(true);
+
+        // clear state so refresh/back doesn't reopen
+        window.history.replaceState({}, document.title);
+      }
+    }, [location]);
 
     return (
         <div className="page-container">
