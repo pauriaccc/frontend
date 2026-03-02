@@ -15,6 +15,7 @@ function Navbar() {
             <Link to="/lecturer">AI Tutor</Link>
             <Link to="/dictionaries">Notepad</Link>
             <Link to="/quiz">AI Quiz</Link>
+            <Link to="/summary">AI Summmary</Link>
             <Link to="/settings">⚙</Link>
         </nav>
     )
