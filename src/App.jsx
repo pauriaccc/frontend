@@ -6,6 +6,7 @@ import CreateAccount from "./components/CreateAccount";
 import Dashboard from "./components/Dashboard";
 import Dictionaries from "./components/Dictionaries";
 import Journals from "./components/Journals";
+import Quiz from "./components/Quiz";
 import Login from "./components/Login";
 import Settings from "./components/Settings";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/dictionaries" element={<Dictionaries />} />
         <Route path="/journals" element={<Journals />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/quiz" element={<Quiz />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>

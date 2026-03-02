@@ -3,7 +3,7 @@ import logo from "../images/logo.png";
 import Graph from "../images/graphplaceholder.png";
 import Typewriter from "./Typewriter";
 import Footer from "./Footer";
-import { getPlacementProgressAndLevel, getPlacementWeekTitle } from "../utils/HelperMethods";
+import { getPlacementProgressAndLevel, getPlacementWeekTitle, calculateJournalStreak } from "../utils/HelperMethods";
 import { GREETINGS, QUIPS } from "../utils/Constants";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,6 +20,7 @@ function Dashboard() {
   const [loadingRecent, setLoadingRecent] = useState(true);
   const [hasTodayJournal, setHasTodayJournal] = useState(false);
   const [loadingTodayJournal, setLoadingTodayJournal] = useState(true);
+  const [streak, setStreak] = useState(0);
 
   const [greeting] = useState(() => {
     return GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
@@ -93,6 +94,37 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  let cancelled = false;
+  async function loadStreak() {
+    try {
+      const res = await fetch("http://localhost:8080/api/journals", {
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch journals: ${res.status}`);
+      }
+
+      const journals = await res.json();
+
+      if (!cancelled) {
+        const journalDates = Array.isArray(journals) ? journals.map((journal) => journal.createdTs).filter(Boolean) : [];
+        setStreak(calculateJournalStreak(journalDates));
+      }
+    } catch (err) {
+      console.error(err);
+      if (!cancelled) {
+        setStreak(0);
+      }
+    }
+  }
+  loadStreak();
+  return () => {
+    cancelled = true;
+  };
+}, []);
+
   return (
     <>
       <Navbar />
@@ -102,8 +134,8 @@ useEffect(() => {
             <div className="dash-topbar-inner">
               <div className="dash-topbar-left" />
               <div className="dash-topbar-right">
-                <div className="dash-streak" title="Streak">
-                  <span>6</span> 🔥
+                <div className="dash-streak" data-tooltip="Enter Weekday Journals to Maintain Your Streak!">
+                  <span>{streak}</span> 🔥
                 </div>
                 <div className="dash-avatar" title={studentName}>
                   {studentInitials}

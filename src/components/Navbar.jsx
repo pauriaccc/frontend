@@ -12,8 +12,9 @@ function Navbar() {
             </div>
             <Link to="/dashboard">Dashboard</Link>
             <Link to="/journals">Journals</Link>
+            <Link to="/lecturer">AI Tutor</Link>
             <Link to="/dictionaries">Notepad</Link>
-            <Link to="/lecturer">AI Lecturer</Link>
+            <Link to="/quiz">AI Quiz</Link>
             <Link to="/settings">⚙</Link>
         </nav>
     )

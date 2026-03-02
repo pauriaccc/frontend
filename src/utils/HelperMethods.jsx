@@ -45,11 +45,77 @@ export function getPlacementWeekTitle(startISO, endISO, nowDate = new Date()) {
   if (nowDate < start) return "Placement Not Started";
   if (nowDate >= end) return "Placement Complete";
 
-  // Week number (1-based): days since start / 7
   const msPerDay = 24 * 60 * 60 * 1000;
   const daysSinceStart = Math.floor((nowDate.getTime() - start.getTime()) / msPerDay);
 
   const weekNumber = 1 + Math.floor(daysSinceStart / 7);
 
   return `Placement Week ${weekNumber}`;
+}
+
+export function calculateJournalStreak(journalDates = [], nowDate = new Date()) {
+  if (!Array.isArray(journalDates) || journalDates.length === 0) {
+    return 0;
+  }
+
+  const parsedDates = journalDates
+    .map((dateStr) => {
+      const date = new Date(dateStr);
+      return Number.isNaN(date.getTime()) ? null : date;
+    })
+    .filter((date) => date !== null)
+    .sort((a, b) => b.getTime() - a.getTime());
+
+  if (parsedDates.length === 0) {
+    return 0;
+  }
+
+  const normalizeDate = (date) => {
+    const normalized = new Date(date);
+    normalized.setHours(0, 0, 0, 0);
+    return normalized;
+  };
+
+  const isWeekday = (date) => {
+    const dayOfWeek = date.getDay();
+    return dayOfWeek >= 1 && dayOfWeek <= 5;
+  };
+
+  const today = normalizeDate(nowDate);
+
+  let mostRecentWeekdayEntry = null;
+  for (let i = 0; i < parsedDates.length; i++) {
+    const normalizedDate = normalizeDate(parsedDates[i]);
+    if (isWeekday(normalizedDate)) {
+      mostRecentWeekdayEntry = normalizedDate;
+      break;
+    }
+  }
+
+  if (!mostRecentWeekdayEntry) {
+    return 0;
+  }
+
+  const entryDates = new Set(
+    parsedDates
+      .map((d) => normalizeDate(d))
+      .filter((d) => isWeekday(d))
+      .map((d) => d.getTime())
+  );
+
+  let streak = 0;
+  let currentWeekday = new Date(mostRecentWeekdayEntry);
+
+  while (currentWeekday.getTime() <= today.getTime()) {
+    if (isWeekday(currentWeekday)) {
+      if (entryDates.has(currentWeekday.getTime())) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    currentWeekday.setDate(currentWeekday.getDate() - 1);
+  }
+
+  return streak;
 }
