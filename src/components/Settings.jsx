@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import { Link } from "react-router-dom";
+import Footer from "./Footer";
 
 function Settings() {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [remindersEnabled, setRemindersEnabled] = useState(true);
 
   useEffect(() => {
     const loadStudent = async () => {
@@ -36,32 +38,91 @@ function Settings() {
     loadStudent();
   }, []);
 
+  const handleReminderToggle = () => {
+    setRemindersEnabled(!remindersEnabled);
+    // TODO Send reminder preference to backend
+  };
+
+  const fieldsToHide = ["password", "id", "studentid"];
+
   return (
     <>
       <Navbar />
-      <div className="main">
-        <h1>Settings</h1>
-
-        {loading && <p>Loading student info...</p>}
-        {error && <p style={{ color: "#dd5a7a" }}>{error}</p>}
-        {student && (
-          <div className="dictionary-entry" style={{ maxWidth: 700 }}>
-            <h2 className="dictionary-title">Your Details</h2>
-            <div className="info-container">
-              {Object.entries(student).map(([key, value]) => (
-                <p key={key}>
-                  <strong>{key}:</strong>{" "}
-                  {typeof value === "object" && value !== null
-                    ? JSON.stringify(value)
-                    : String(value)}
-                </p>
-              ))}
+      <div className="page-container">
+        <main className="main settings-main">
+          <div className="settings-container">
+            <div className="settings-header">
+              <h1 className="settings-title">Settings</h1>
+              <p className="settings-subtitle">Manage your account preferences</p>
             </div>
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <button className="submit-button">Log Out</button>
-            </Link>
+
+            {loading && <p className="loading-text">Loading student info...</p>}
+            {error && <p className="error-text">{error}</p>}
+
+            {student && (
+              <div className="settings-grid">
+                <div className="settings-card settings-card-details">
+                  <h2 className="settings-card-title">Your Details</h2>
+                  <div className="settings-info">
+                    {Object.entries(student).map(([key, value]) => {
+                      if (fieldsToHide.includes(key.toLowerCase())) {
+                        return null;
+                      }
+
+                      return (
+                        <div key={key} className="settings-row">
+                          <span className="settings-label">
+                            {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1")}:
+                          </span>
+                          <span className="settings-value">
+                            {typeof value === "object" && value !== null
+                              ? JSON.stringify(value)
+                              : String(value)}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="settings-column-right">
+                  <div className="settings-card">
+                    <h2 className="settings-card-title">Enable Notifications</h2>
+                    <div className="settings-toggle-row">
+                      <div>
+                        <span className="settings-label"></span>
+                        <p className="settings-description"> Get email reminders to write your daily journal, plus updates on streaks and milestones.</p>
+                      </div>
+                      <label className="toggle-switch">
+                        <input
+                          type="checkbox"
+                          checked={remindersEnabled}
+                          onChange={handleReminderToggle}
+                        />
+                        <span className="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="settings-card">
+                    <h2 className="settings-card-title">Support</h2>
+                    <p className="settings-description">Need help? Contact us:</p>
+                    <a href="mailto:placementpal@admin.com" className="settings-link">
+                      placementpal@admin.com
+                    </a>
+                  </div>
+
+                  <div className="settings-card">
+                    <Link to="/" style={{ textDecoration: "none" }}>
+                      <button className="logout-button">Log Out</button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </main>
+      <Footer />
       </div>
     </>
   );
