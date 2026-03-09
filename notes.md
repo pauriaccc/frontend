@@ -25,10 +25,10 @@
 [X] Settings page Template- call to BE for info
 [X] Login and CA Working
 [X] Dashboard Initial Design
-[] Dashboard Logic - enter journal button, levelling, streaks
-----
-[] How to make notepad look better - stuff up/down - stick tags to end?
+[X] Dashboard Logic - enter journal button, levelling, streaks
+[X] Reminders
+[X] Levelling
+[X] Update Admin Panel for Reminders
+[] Fix streak bug
 [] Functionality Errors & Boundaries - e.g entering no data, limit tag amt? Add 'No Results Found'
 [] Dictionary to notepad Refactor
-[] Levelling
-[] Reminders

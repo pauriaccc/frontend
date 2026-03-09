@@ -7,7 +7,7 @@ function Settings() {
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [remindersEnabled, setRemindersEnabled] = useState(true);
+  const [remindersEnabled, setRemindersEnabled] = useState(false);
 
   useEffect(() => {
     const loadStudent = async () => {
@@ -28,6 +28,7 @@ function Settings() {
 
         const data = await res.json();
         setStudent(data);
+        setRemindersEnabled(data.remindersEnabled)
       } catch (e) {
         setError(e.message || "Failed to load student");
       } finally {
@@ -38,12 +39,32 @@ function Settings() {
     loadStudent();
   }, []);
 
-  const handleReminderToggle = () => {
-    setRemindersEnabled(!remindersEnabled);
-    // TODO Send reminder preference to backend
+  const handleReminderToggle = async () => {
+    const newState = !remindersEnabled;
+    setRemindersEnabled(newState);
+
+    try {
+      const res = await fetch("http://localhost:8080/api/students/update", {
+        method: "PUT",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...student,
+          remindersEnabled: newState,
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(text || `Request failed (${res.status})`);
+      }
+    } catch (e) {
+      console.error("Failed to update reminders:", e.message);
+      setRemindersEnabled(!newState);
+    }
   };
 
-  const fieldsToHide = ["password", "id", "studentid"];
+  const fieldsToHide = ["password", "id", "studentid", "remindersenabled"];
 
   return (
     <>

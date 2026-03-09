@@ -147,12 +147,27 @@ body, #root {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
+  margin-top: 20px;
 }
 
 .add-search-container {
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
   margin-top: 20px;
+  min-height: 50px;
+}
+
+.add-button-center {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.trigger-reminders-button {
+  position: absolute;
+  right: 0;
 }
 
 .dictionary-grid .empty-state {
@@ -271,6 +286,20 @@ font-family: 'Source Code Pro', monospace;
 
 .modal-cancel-button:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-toggle-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding: 10px 0;
+}
+
+.modal-toggle-label {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 /* Dictionary Delete Button */
@@ -1333,6 +1362,21 @@ display: none;
 
 .date-input {
   color: #cccccc;
+}
+
+.admin-modal-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(20, 20, 20, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 /*  DASHBOARD  */

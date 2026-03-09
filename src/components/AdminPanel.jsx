@@ -13,7 +13,8 @@ function AdminPanel() {
         email: "",
         password: "",
         placementStart: "",
-        placementEnd: ""
+        placementEnd: "",
+        remindersEnabled: false
     });
 
     useEffect(() => {
@@ -84,7 +85,8 @@ function AdminPanel() {
             email: student.email,
             password: student.password,
             placementStart: student.placementStart,
-            placementEnd: student.placementEnd
+            placementEnd: student.placementEnd,
+            remindersEnabled: student.remindersEnabled || false
         });
         setShowModal(true);
     };
@@ -95,7 +97,15 @@ function AdminPanel() {
             email: "",
             password: "",
             placementStart: "",
-            placementEnd: ""
+            placementEnd: "",
+            remindersEnabled: false
+        });
+    };
+
+    const triggerReminders = async () => {
+        await fetch("http://localhost:8080/api/students/send-reminders", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
         });
     };
 
@@ -120,7 +130,8 @@ function AdminPanel() {
                                         <th>Email</th>
                                         <th>Placement Start</th>
                                         <th>Placement End</th>
-                                        <th>Actions</th>
+                                        <th>Reminders</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -131,6 +142,7 @@ function AdminPanel() {
                                             <td>{student.email}</td>
                                             <td>{student.placementStart}</td>
                                             <td>{student.placementEnd}</td>
+                                            <td>{student.remindersEnabled ? "Yes" : "No"}</td>
                                             <td className="admin-actions">
                                                 <button
                                                     className="journal-edit-button"
@@ -151,15 +163,26 @@ function AdminPanel() {
                                 </tbody>
                             </table>
                             <div className="add-search-container">
+                                <div className="add-button-center">
+                                    <button
+                                        className="add-button"
+                                        onClick={() => {
+                                            setEditingStudent(null);
+                                            resetForm();
+                                            setShowModal(true);
+                                        }}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+
                                 <button
-                                    className="add-button"
+                                    className="submit-button trigger-reminders-button"
                                     onClick={() => {
-                                        setEditingStudent(null);
-                                        resetForm();
-                                        setShowModal(true);
+                                        triggerReminders();
                                     }}
                                 >
-                                    +
+                                    Trigger Reminders
                                 </button>
                             </div>
                         </>
@@ -168,7 +191,7 @@ function AdminPanel() {
             </div>
 
             {showModal && (
-                <div className="modal-overlay">
+                <div className="admin-modal-overlay">
                     <div className="modal-card">
                         <h2>{editingStudent ? "Edit Student" : "Add Student"}</h2>
 
@@ -218,6 +241,19 @@ function AdminPanel() {
                             }
                         />
 
+                        <div className="modal-toggle-container">
+                            <label className="modal-toggle-label">Enable Reminders</label>
+                            <label className="toggle-switch">
+                                <input
+                                    type="checkbox"
+                                    checked={studentForm.remindersEnabled}
+                                    onChange={(e) =>
+                                        setStudentForm({ ...studentForm, remindersEnabled: e.target.checked })
+                                    }
+                                />
+                                <span className="toggle-slider"></span>
+                            </label>
+                        </div>
                         <div className="modal-actions">
                             <button
                                 className="modal-cancel-button"
