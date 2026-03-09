@@ -58,63 +58,48 @@ export function calculateJournalStreak(journalDates = [], nowDate = new Date()) 
     return 0;
   }
 
-  const parsedDates = journalDates
-    .map((dateStr) => {
-      const date = new Date(dateStr);
-      return Number.isNaN(date.getTime()) ? null : date;
-    })
-    .filter((date) => date !== null)
-    .sort((a, b) => b.getTime() - a.getTime());
-
-  if (parsedDates.length === 0) {
-    return 0;
-  }
-
-  const normalizeDate = (date) => {
-    const normalized = new Date(date);
-    normalized.setHours(0, 0, 0, 0);
-    return normalized;
+  const normalize = (d) => {
+    const date = new Date(d);
+    date.setHours(0,0,0,0);
+    return date;
   };
 
-  const isWeekday = (date) => {
-    const dayOfWeek = date.getDay();
-    return dayOfWeek >= 1 && dayOfWeek <= 5;
+  const isWeekday = (d) => {
+    const day = d.getDay();
+    return day >= 1 && day <= 5;
   };
 
-  const today = normalizeDate(nowDate);
+  const parsed = journalDates
+    .map((d) => new Date(d))
+    .filter((d) => !Number.isNaN(d.getTime()));
 
-  let mostRecentWeekdayEntry = null;
-  for (let i = 0; i < parsedDates.length; i++) {
-    const normalizedDate = normalizeDate(parsedDates[i]);
-    if (isWeekday(normalizedDate)) {
-      mostRecentWeekdayEntry = normalizedDate;
-      break;
-    }
+  const entrySet = new Set(parsed.map((d) => normalize(d).getTime()));
+
+  let day = normalize(nowDate);
+
+  if (day.getDay() === 6) day.setDate(day.getDate() - 1);
+  if (day.getDay() === 0) day.setDate(day.getDate() - 2);
+
+  if (!entrySet.has(day.getTime())) {
+    day.setDate(day.getDate() - 1);
   }
-
-  if (!mostRecentWeekdayEntry) {
-    return 0;
-  }
-
-  const entryDates = new Set(
-    parsedDates
-      .map((d) => normalizeDate(d))
-      .filter((d) => isWeekday(d))
-      .map((d) => d.getTime())
-  );
 
   let streak = 0;
-  let currentWeekday = new Date(mostRecentWeekdayEntry);
 
-  while (currentWeekday.getTime() <= today.getTime()) {
-    if (isWeekday(currentWeekday)) {
-      if (entryDates.has(currentWeekday.getTime())) {
-        streak++;
-      } else {
-        break;
-      }
+  while (true) {
+
+    if (!isWeekday(day)) {
+      day.setDate(day.getDate() - 1);
+      continue;
     }
-    currentWeekday.setDate(currentWeekday.getDate() - 1);
+
+    if (!entrySet.has(day.getTime())) {
+      break;
+    }
+
+    streak++;
+
+    day.setDate(day.getDate() - 1);
   }
 
   return streak;
