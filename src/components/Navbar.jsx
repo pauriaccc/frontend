@@ -39,11 +39,9 @@ function Navbar() {
     }, []);
 
     const quizLocked = loadingNotes || noteCount < 10;
-    const quizTooltip = loadingNotes
-        ? "Checking your notes..."
-        : `Add 10 Notes to Unlock! ${noteCount}/10`;
-
-    const summaryTooltip = "Development in Progress :)";
+    const summaryLocked = false //add logic to check if user has completed placement (or in last week)
+    const quizTooltip = loadingNotes ? "Checking your notes..." : `Add 10 Notes to Unlock! ${noteCount}/10`;
+    const summaryTooltip = "Finish Your Placement to Unlock";
 
     return (
         <nav className="navbar">
@@ -73,13 +71,17 @@ function Navbar() {
                 <Link to="/quiz">AI Quiz</Link>
             )}
 
-            <span
-                className="navbar-locked-link"
-                data-tooltip={summaryTooltip}
-                aria-disabled="true"
-            >
-                AI Summary
-            </span>
+            {summaryLocked ? (
+                <span
+                    className="navbar-locked-link"
+                    data-tooltip={summaryTooltip}
+                    aria-disabled="true"
+                >
+                    AI Summary
+                </span>
+            ) : (
+                <Link to="/summary">AI Summary</Link>
+            )}
 
             <Link to="/settings">⚙</Link>
         </nav>
