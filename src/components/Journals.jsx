@@ -13,6 +13,7 @@ function Journals() {
     const [formData, setFormData] = useState({ content: "", tags: "" });
     const [editingJournal, setEditingJournal] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const isSearching = searchTerm.trim().length > 0;
 
     function fetchJournals() {
         fetch("http://localhost:8080/api/journals" , {
@@ -36,7 +37,14 @@ function Journals() {
     }
 
     useEffect(() => {
-        const timeout = setTimeout(() => fetchJournalsByQuery(searchTerm), 300);
+        if (!searchTerm.trim()) {
+            fetchJournals();
+            return;
+        }
+
+        const timeout = setTimeout(() => {
+            fetchJournalsByQuery(searchTerm);
+        }, 300);
         return () => clearTimeout(timeout);
     }, [searchTerm]);
 
@@ -118,8 +126,6 @@ function Journals() {
         setEditingJournal(null);
         setFormData({ content: "", tags: "" });
         setShowForm(true);
-
-        // clear state so refresh/back doesn't reopen
         window.history.replaceState({}, document.title);
       }
     }, [location]);
@@ -152,20 +158,36 @@ function Journals() {
                             setShowForm(true);
                         }}
                     > + </button>
-                    {journals.length !== 0 && <Searchbar
+                    {(journals.length !== 0 || isSearching) && (
+                      <Searchbar
                         value={searchTerm}
                         onChange={setSearchTerm}
                         words={["Content...", "YYYY-MM-DD...", "Tags..."]}
-                        />
-                    }
+                      />
+                    )}
                 </div>
                 <div className="journal-grid">
-                  {journals.length === 0 ? (
-                    <div className="empty-state">
-                      <p className="empty-text"> You don’t have any journals yet. </p>
-                      <p className="empty-hint"> Click the <span className="plus">+</span> above to add your first journal! </p>
-                    </div>
-                  ) : (journalComponents)}
+                  <div className="journal-grid">
+                    {journals.length === 0 ? (
+                      isSearching ? (
+                        <div className="empty-state">
+                          <p className="empty-text">No journals found for "{searchTerm}".</p>
+                          <p className="empty-hint">
+                            Try a different keyword, date (YYYY-MM-DD), or tag.
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="empty-state">
+                          <p className="empty-text">You don’t have any journals yet.</p>
+                          <p className="empty-hint">
+                            Click the <span className="plus">+</span> above to add your first journal!
+                          </p>
+                        </div>
+                      )
+                    ) : (
+                      journalComponents
+                    )}
+                  </div>
                 </div>
             </div>
             <Footer />

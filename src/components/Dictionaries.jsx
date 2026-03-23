@@ -13,6 +13,7 @@ function Dictionaries() {
     const [formData, setFormData] = useState({ title: "", content: "", tags: "" });
     const [editingDictionary, setEditingDictionary] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const isSearching = searchTerm.trim().length > 0;
 
     function fetchDictionaries() {
         fetch("http://localhost:8080/api/dictionaries", {
@@ -34,8 +35,14 @@ function Dictionaries() {
     }
 
     useEffect(() => {
-        const timeout = setTimeout(() => fetchDictionariesByQuery(searchTerm), 300);
-        return () => clearTimeout(timeout)
+        if (!searchTerm.trim()) {
+            fetchDictionaries();
+            return;
+        }
+        const timeout = setTimeout(() => {
+            fetchDictionariesByQuery(searchTerm);
+        }, 300);
+        return () => clearTimeout(timeout);
     }, [searchTerm])
 
     useEffect(() => fetchDictionaries(), [])
@@ -160,7 +167,7 @@ function Dictionaries() {
                         }}
                     > +
                     </button>
-                    {dictionaries.length !== 0 && <Searchbar
+                    {(dictionaries.length !== 0 || isSearching) && <Searchbar
                             value={searchTerm}
                             onChange={setSearchTerm}
                             words={["Title...", "Content...", "Tags..."]}
@@ -169,11 +176,21 @@ function Dictionaries() {
                 </div>
                 <div className="dictionary-grid">
                     {dictionaries.length === 0 ? (
-                        <div className="empty-state">
-                            <p className="empty-text"> You don’t have any notes yet. </p>
-                            <p className="empty-hint">Click the <span className="plus">+</span> above to add your first note!</p>
-                        </div>
-                    ) : (dictionaryComponents)}
+                        isSearching ? (
+                            <div className="empty-state">
+                                <p className="empty-text">No notes found for "{searchTerm}".</p>
+                                <p className="empty-hint">Try a different keyword or tag.</p>
+                            </div>
+                        ) : (
+                            <div className="empty-state">
+                                <p className="empty-text">You don’t have any notes yet.</p>
+                                <p className="empty-hint">Click the <span className="plus">+</span> above to add your first note!
+                              </p>
+                            </div>
+                        )
+                    ) : (
+                        dictionaryComponents
+                    )}
                 </div>
             </div>
             <Footer />
