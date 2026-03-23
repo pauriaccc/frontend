@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LandingHeader from "./LandingHeader";
+import PopupModal from "./PopupModal";
 
 function CreateAccount() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ function CreateAccount() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -83,6 +85,20 @@ function CreateAccount() {
         return;
       }
 
+      if (formData.placementStart && formData.placementEnd) {
+        const startDate = new Date(formData.placementStart);
+        const endDate = new Date(formData.placementEnd);
+
+        // Calculate one month difference
+        const minEndDate = new Date(startDate);
+        minEndDate.setMonth(minEndDate.getMonth() + 1);
+
+        if (endDate < minEndDate) {
+          setError("End date must be at least one month after start date");
+          return;
+        }
+      }
+
       try {
         setLoading(true);
         const newStudent = {
@@ -105,14 +121,18 @@ function CreateAccount() {
             throw new Error(text || "Failed to create account");
         }
 
-        alert("Account created successfully!");
-        window.location.href = "/login";
+        setShowModal(true);
 
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        window.location.href = "/login";
     };
 
     const emailExists = async (email) => {
@@ -213,6 +233,7 @@ function CreateAccount() {
           </form>
         </div>
       </div>
+      {showModal && <PopupModal header="Success" message="Account created successfully!" onClose={closeModal} />}
     </>
   );
 }

@@ -80,7 +80,7 @@ function AILecturer() {
                             }
                             placeholder="Enter prompt..."
                         />
-                        <button className="submit-button" type="submit">Send</button>
+                        <button className="submit-button" type="submit" disabled={!prompt.trim() || loading}>Send</button>
                     </form>
                     {message && (
                         <div className="ai-response-wrapper">

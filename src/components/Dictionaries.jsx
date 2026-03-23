@@ -5,6 +5,8 @@ import Dictionary from "./Dictionary";
 import Footer from "./Footer";
 import Searchbar from "./Searchbar";
 import { useLocation } from "react-router-dom";
+import { parseTags } from "../utils/HelperMethods";
+import PopupModal from "./PopupModal";
 
 function Dictionaries() {
     const location = useLocation();
@@ -14,6 +16,7 @@ function Dictionaries() {
     const [editingDictionary, setEditingDictionary] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const isSearching = searchTerm.trim().length > 0;
+    const [showModal, setShowModal] = useState(false);
 
     function fetchDictionaries() {
         fetch("http://localhost:8080/api/dictionaries", {
@@ -52,12 +55,8 @@ function Dictionaries() {
             ...editingDictionary,
             title: formData.title,
             content: formData.content,
-            tags: formData.tags
-                .split(",")
-                .map((tag) => tag.trim())
-                .filter(Boolean),
+            tags: parseTags(formData.tags)
         }
-
         fetch("http://localhost:8080/api/dictionaries/update", {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -74,14 +73,18 @@ function Dictionaries() {
     }
 
     function addNewDictionary() {
+        const newTitle = formData.title.trim().toLowerCase();
+        const titleExists = dictionaries.some(dict => dict.title.trim().toLowerCase() === newTitle);
+        if (titleExists) {
+            showModalPopup();
+            return;
+        }
+
         const newDictionary = {
             dictionaryId: crypto.randomUUID(),
             title: formData.title,
             content: formData.content,
-            tags: formData.tags
-                .split(",")
-                .map((tag) => tag.trim())
-                .filter(Boolean),
+            tags: parseTags(formData.tags)
         }
 
         fetch("http://localhost:8080/api/dictionaries/add", {
@@ -116,6 +119,14 @@ function Dictionaries() {
         })
         setShowForm(true)
     }
+
+    const showModalPopup = () => {
+        setShowModal(true);
+    };
+
+    const closeModalPopup = () => {
+        setShowModal(false);
+    };
 
     useEffect(() => {
       if (location.state?.openNew) {
@@ -192,6 +203,7 @@ function Dictionaries() {
                         dictionaryComponents
                     )}
                 </div>
+                {showModal && <PopupModal header="Attention" message="A note already exists with this title!" onClose={closeModalPopup} />}
             </div>
             <Footer />
         </div>

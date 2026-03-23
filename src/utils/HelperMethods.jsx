@@ -32,6 +32,15 @@ export function getPlacementProgressAndLevel(startISO, endISO, nowDate = new Dat
   return { progress, level, status: "in_progress" };
 }
 
+export function parseTags(tagString) {
+    return [...new Set(
+        tagString
+            .split(",")
+            .map(t => t.trim())
+            .filter(Boolean)
+    )]
+}
+
 export function getPlacementWeekTitle(startISO, endISO, nowDate = new Date()) {
   if (!startISO || !endISO) return "Placement";
 

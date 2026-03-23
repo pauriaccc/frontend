@@ -245,7 +245,7 @@ body, #root {
   transform: scale(0.95);
 }
 
-/* Dictionary Modal */
+/* ADD/EDIT Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -345,6 +345,12 @@ font-family: 'Source Code Pro', monospace;
   color: #fff;
   font-size: 1rem;
   font-weight: 500;
+}
+
+.modal-error {
+    color: #ff4d4f;
+    font-size: 0.8rem;
+    margin-top: 4px;
 }
 
 /* Dictionary Delete Button */
@@ -621,7 +627,7 @@ display: none;
 
 .ai-lecturer h1 {
     margin: 0;
-    font-weight: 600;
+    font-weight: 400;
 }
 
 .ai-lecturer h4 {
@@ -684,6 +690,11 @@ display: none;
     background 0.2s ease,
     box-shadow 0.25s ease,
     transform 0.2s ease;
+}
+
+.submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .submit-button:hover {
@@ -1303,8 +1314,22 @@ display: none;
   text-decoration: underline;
 }
 
-/* ADMIN PANEL */
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0px;
+    background: rgba(20, 20, 20, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
+/* ADMIN PANEL */
 .admin-page {
   padding-top: 100px;
 }

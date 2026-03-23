@@ -5,6 +5,8 @@ import Footer from "./Footer";
 import AddEditModal from "./AddEditModal";
 import Searchbar from "./Searchbar";
 import { useLocation } from "react-router-dom";
+import { parseTags } from "../utils/HelperMethods";
+import PopupModal from "./PopupModal";
 
 function Journals() {
     const location = useLocation();
@@ -14,6 +16,7 @@ function Journals() {
     const [editingJournal, setEditingJournal] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const isSearching = searchTerm.trim().length > 0;
+    const [showModal, setShowModal] = useState(false);
 
     function fetchJournals() {
         fetch("http://localhost:8080/api/journals" , {
@@ -54,7 +57,7 @@ function Journals() {
         const newJournal = {
             journalId: "J" + crypto.randomUUID().slice(0, 5),
             content: formData.content,
-            tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
+            tags: parseTags(formData.tags),
         };
 
         fetch("http://localhost:8080/api/journals/add", {
@@ -71,11 +74,19 @@ function Journals() {
             .catch(console.error);
     }
 
+    const showModalPopup = () => {
+        setShowModal(true);
+    };
+
+    const closeModalPopup = () => {
+        setShowModal(false);
+    };
+
     function saveEditedJournal() {
         const updatedJournal = {
             ...editingJournal,
             content: formData.content,
-            tags: formData.tags.split(",").map((t) => t.trim()).filter(Boolean),
+            tags: parseTags(formData.tags),
         };
 
         fetch("http://localhost:8080/api/journals/update", {
@@ -108,6 +119,11 @@ function Journals() {
         )
             .then(() => fetchJournals())
             .catch(console.error);
+    }
+
+    function isJournalTodayExists() {
+        const today = new Date().toISOString().split("T")[0];
+        return journals.some(journal => journal.createdTs.startsWith(today));
     }
 
     const journalComponents = journals.map((journal) => (
@@ -155,7 +171,7 @@ function Journals() {
                         onClick={() => {
                             setEditingJournal(null);
                             setFormData({ content: "", tags: "" });
-                            setShowForm(true);
+                            isJournalTodayExists() ? showModalPopup() : setShowForm(true);
                         }}
                     > + </button>
                     {(journals.length !== 0 || isSearching) && (
@@ -189,6 +205,7 @@ function Journals() {
                     )}
                   </div>
                 </div>
+                {showModal && <PopupModal header="Attention" message="You have already added today's journal!" onClose={closeModalPopup} />}
             </div>
             <Footer />
         </div>
