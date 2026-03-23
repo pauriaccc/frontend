@@ -112,7 +112,7 @@ function Settings() {
                     <div className="settings-toggle-row">
                       <div>
                         <span className="settings-label"></span>
-                        <p className="settings-description"> Get email reminders to write your daily journal, plus updates on streaks and milestones.</p>
+                        <p className="settings-description"> Get email reminders if daily journal is missed.</p>
                       </div>
                       <label className="toggle-switch">
                         <input
