@@ -1567,6 +1567,15 @@ display: none;
   padding: 16px 35px 16px 20px;
 }
 
+.yellow-text {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #ffd866;
+  margin: 0 4px;
+  transform: translateY(2px);
+}
+
 .dash-subtitle-two {
   margin-top: 8px;
   min-height: 20px;
@@ -1604,7 +1613,7 @@ display: none;
 
 .dash-title {
   margin: 0;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 26px;
 }
 
@@ -2158,6 +2167,12 @@ input:checked + .toggle-slider:before {
   padding-top: 12px;
 }
 
+.dash-quiz {
+ padding-bottom: 8px;
+ padding-left: 35px;
+ padding-top: 8px;
+}
+
 .quiz-shell {
   max-width: 850px;
   margin: 0 auto;
@@ -2420,4 +2435,15 @@ input:checked + .toggle-slider:before {
 .quiz-count-select option {
   background: #2d2a2e;
   color: #fff;
+}
+
+/* Summary Page */
+.summary-logo-image {
+  width: 300px;
+  height: 300px;
+  margin: 0;
+  animation: talkBounce 1s ease-in-out infinite;
+  filter:
+    drop-shadow(-10px 0 10px rgba(255, 105, 180, 0.7))
+    drop-shadow(10px 0 10px rgba(255, 216, 102, 0.7));
 }

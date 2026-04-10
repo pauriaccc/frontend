@@ -64,7 +64,7 @@ function Settings() {
     }
   };
 
-  const fieldsToHide = ["password", "id", "studentid", "remindersenabled"];
+  const fieldsToHide = ["password", "id", "studentid", "remindersenabled", "quizscores"];
 
   return (
     <>

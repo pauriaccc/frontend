@@ -2,6 +2,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import logo from "../images/logo.png";
 import { useMemo, useState } from "react";
+import { useEffect } from "react";
 
 function Quiz() {
     const [quiz, setQuiz] = useState(null);
@@ -59,6 +60,33 @@ function Quiz() {
             [currentQuestionIndex]: option
         }));
     }
+
+    async function saveQuizScore(finalScore, totalQuestions) {
+        try {
+            await fetch(
+                "http://localhost:8080/api/students/quiz-score/add",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        score: Math.round((finalScore / totalQuestions) * 100)
+                    })
+                }
+            );
+
+        } catch (err) {
+            console.error("Failed to save quiz score", err);
+        }
+    }
+
+    useEffect(() => {
+        if (submitted && quiz) {
+            saveQuizScore(score, quiz.questions.length);
+        }
+    }, [submitted]);
 
     function handleNext() {
         if (!quiz) return;

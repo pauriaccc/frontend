@@ -47,7 +47,7 @@ function Summary() {
         <main className="main ai-page">
           <div className="ai-lecturer-card quiz-start-lecturer-card">
             <div className="ai-lecturer">
-              <img className="logoImage" src={logo} alt="Placement Pal Logo" />
+              <img className="summary-logo-image " src={logo} alt="Placement Pal Logo" />
               <div className="thinking-wrapper">
                 {generating && (
                   <div className="thinking-dots">

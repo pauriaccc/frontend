@@ -1,12 +1,12 @@
 import Navbar from "./Navbar";
 import logo from "../images/logo.png";
-import Graph from "../images/graphplaceholder.png";
 import Typewriter from "./Typewriter";
 import Footer from "./Footer";
 import { getPlacementProgressAndLevel, getPlacementWeekTitle, calculateJournalStreak } from "../utils/HelperMethods";
 import { GREETINGS, QUIPS } from "../utils/Constants";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 function Dashboard() {
   const studentName = localStorage.getItem("studentName") || "Student";
@@ -21,6 +21,8 @@ function Dashboard() {
   const [hasTodayJournal, setHasTodayJournal] = useState(false);
   const [loadingTodayJournal, setLoadingTodayJournal] = useState(true);
   const [streak, setStreak] = useState(0);
+  const [quizScores, setQuizScores] = useState([]);
+  const [loadingQuizScores, setLoadingQuizScores] = useState(true);
 
   const [greeting] = useState(() => {
     return GREETINGS[Math.floor(Math.random() * GREETINGS.length)];
@@ -125,6 +127,57 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  let cancelled = false;
+  async function loadQuizScores() {
+    try {
+      setLoadingQuizScores(true);
+      const res = await fetch(
+        "http://localhost:8080/api/students/quiz-scores",
+        { credentials: "include" }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch quiz scores");
+      }
+
+      const data = await res.json();
+
+      if (!cancelled) {
+        const formatted = data.map((score, i) => ({
+          index: i + 1,
+          date: new Date(score.createdTs).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short"
+          }),
+          score: score.score
+        }));
+
+        setQuizScores(formatted);
+      }
+
+    } catch (err) {
+      console.error(err);
+
+      if (!cancelled) {
+        setQuizScores([]);
+      }
+
+    } finally {
+      if (!cancelled) {
+        setLoadingQuizScores(false);
+      }
+    }
+  }
+
+  loadQuizScores();
+
+  return () => {
+    cancelled = true;
+  };
+
+}, []);
+
   return (
     <>
       <Navbar />
@@ -177,8 +230,8 @@ useEffect(() => {
                     )}
 
                     {!loadingRecent && recentEntries.length === 0 && (
-                      <div className="dash-list-empty">
-                       You don’t have any notes yet — click <b>New Entry</b> to add your first note!
+                      <div className="empty-hint">
+                       You don’t have any notes yet — click <span className="yellow-text">New Entry</span> to add your first note!
                       </div>
                     )}
 
@@ -236,7 +289,7 @@ useEffect(() => {
 
               <aside className="dash-right">
                 <div className="dash-mini-card">
-                  <div className="dash-mini-title">Your Stats</div>
+                  <div className="dash-mini-title">My Stats</div>
 
                   <div className="dash-stats-row">
                     <div className="dash-avatar">
@@ -313,23 +366,86 @@ useEffect(() => {
 
                 <div
                   className="dash-mini-card"
-                  style={{ height: 300 }}
                 >
                   <div className="dash-mini-title">
-                    Learning Progress
+                    Recent Quiz Scores
                   </div>
                   <div className="dash-mini-body">
-                    <div className="dash-mini-muted">
-                      <img
-                        src={Graph}
-                        alt="Learning progress graph"
-                        style={{
-                          width: "100%",
-                          height: "200px",
-                          objectFit: "contain",
-                        }}
-                      />
-                    </div>
+                    {loadingQuizScores && (
+                      <div className="dash-mini-muted">
+                        Loading quiz scores...
+                      </div>
+                    )}
+                    {!loadingQuizScores && quizScores.length === 0 && (
+                      <div className="dash-mini-muted dash-quiz">
+                        Complete quizzes to see your progress!
+                      </div>
+                    )}
+                    {!loadingQuizScores && quizScores.length > 0 && (
+                      <ResponsiveContainer width="100%" height={220}>
+                        <LineChart data={quizScores} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+
+                          <CartesianGrid
+                            stroke="rgba(255,255,255,0.08)"
+                            strokeDasharray="3 3"
+                          />
+
+                          <XAxis
+                            dataKey="index"
+                            tickFormatter={(i) => quizScores[i - 1]?.date ?? i}
+                            tick={{
+                              fill: "#cccccc",
+                              fontFamily: "Source Code Pro",
+                              fontSize: 12
+                            }}
+                            axisLine={{ stroke: "rgba(255,255,255,0.15)" }}
+                            tickLine={false}
+                          />
+                          <YAxis
+                            domain={[0, 100]}
+                            tick={{
+                              fill: "#cccccc",
+                              fontFamily: "Source Code Pro",
+                              fontSize: 12
+                            }}
+                            axisLine={{ stroke: "rgba(255,255,255,0.15)" }}
+                            tickLine={false}
+                          />
+
+                          <Tooltip
+                            labelFormatter={(i) => quizScores[i - 1]?.date ?? i}
+                            formatter={(value) => [`${value}%`, "Score"]}
+                            contentStyle={{
+                              background: "#2d2a2e",
+                              border: "1px solid rgba(255,255,255,0.18)",
+                              borderRadius: "10px",
+                              fontFamily: "Source Code Pro",
+                              color: "#fff"
+                            }}
+                            labelStyle={{ color: "#ffd866" }}
+                          />
+
+                          <Line
+                            type="monotone"
+                            dataKey="score"
+                            stroke="#ffd866"
+                            strokeWidth={3}
+                            dot={{
+                              r: 4,
+                              stroke: "#ffd866",
+                              strokeWidth: 2,
+                              fill: "#362c32"
+                            }}
+                            activeDot={{
+                              r: 6,
+                              stroke: "#ffd866",
+                              strokeWidth: 2,
+                              fill: "#ffd866"
+                            }}
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    )}
                   </div>
                 </div>
               </aside>
