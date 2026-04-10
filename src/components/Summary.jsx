@@ -56,19 +56,18 @@ function Summary() {
                 )}
               </div>
               <h1>Congratulations!</h1>
-              <h4>Click the button below to generate a PDF summarising your placement, based on your journal and Notepad entries.</h4>
+              <h4>Generate a PDF summarising your placement, based on your journal and Notepad entries.</h4>
             </div>
 
             <div className="search-response-container">
               <button
                 className="submit-button"
                 onClick={handleGeneratePDF}
-                disabled={generating}
+                disabled={generating || success}
               >
-                {generating ? "Generating..." : "Generate PDF"}
+                {success ? "Generated ✓" : generating ? "Generating..." : "Generate PDF"}
               </button>
               {error && <p className="quiz-error">{error}</p>}
-              {success && <p className="quiz-success">PDF generated successfully!</p>}
             </div>
           </div>
         </main>
