@@ -17,6 +17,8 @@ function Dictionaries() {
     const [searchTerm, setSearchTerm] = useState("");
     const isSearching = searchTerm.trim().length > 0;
     const [showModal, setShowModal] = useState(false);
+    const [showPIIModal, setShowPIIModal] = useState(false);
+    const [pendingAdd, setPendingAdd] = useState(false);
 
     function fetchDictionaries() {
         fetch("http://localhost:8080/api/dictionaries", {
@@ -128,6 +130,17 @@ function Dictionaries() {
         setShowModal(false);
     };
 
+    function handlePIIConfirm() {
+        setShowPIIModal(false);
+
+        if (pendingAdd) {
+            setEditingDictionary(null);
+            setFormData({ title: "", content: "", tags: "" });
+            setShowForm(true);
+            setPendingAdd(false);
+        }
+    }
+
     useEffect(() => {
       if (location.state?.openNew) {
         setEditingDictionary(null);
@@ -172,6 +185,12 @@ function Dictionaries() {
                     <button
                         className="add-button"
                         onClick={() => {
+                            if (dictionaries.length === 0) {
+                                setShowPIIModal(true);
+                                setPendingAdd(true);
+                                return;
+                            }
+
                             setEditingDictionary(null)
                             setFormData({ title: "", content: "", tags: "" })
                             setShowForm(true)
@@ -204,6 +223,7 @@ function Dictionaries() {
                     )}
                 </div>
                 {showModal && <PopupModal header="Attention" message="A note already exists with this title!" onClose={closeModalPopup} />}
+                {showPIIModal && ( <PopupModal header="Warning!" message="Do not enter any personal, company or sensitive information such as names, addresses, emails, or passwords." onClose={handlePIIConfirm} /> )}
             </div>
             <Footer />
         </div>

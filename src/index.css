@@ -40,6 +40,7 @@ body, #root {
   flex-direction: column;
   padding: 25px 20px;
   box-sizing: border-box;
+  z-index: 2000;
 }
 
 .logoDiv {

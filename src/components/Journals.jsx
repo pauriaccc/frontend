@@ -17,6 +17,8 @@ function Journals() {
     const [searchTerm, setSearchTerm] = useState("");
     const isSearching = searchTerm.trim().length > 0;
     const [showModal, setShowModal] = useState(false);
+    const [showPIIModal, setShowPIIModal] = useState(false);
+    const [pendingAdd, setPendingAdd] = useState(false);
 
     function fetchJournals() {
         fetch("http://localhost:8080/api/journals" , {
@@ -137,6 +139,17 @@ function Journals() {
         />
     ));
 
+    function handlePIIConfirm() {
+            setShowPIIModal(false);
+
+            if (pendingAdd) {
+                setEditingJournal(null);
+                setFormData({ content: "" });
+                setShowForm(true);
+                setPendingAdd(false);
+            }
+        }
+
     useEffect(() => {
       if (location.state?.openNew) {
         setEditingJournal(null);
@@ -169,6 +182,11 @@ function Journals() {
                     <button
                         className="add-button"
                         onClick={() => {
+                            if (journals.length === 0) {
+                                setShowPIIModal(true);
+                                setPendingAdd(true);
+                                return;
+                            }
                             setEditingJournal(null);
                             setFormData({ content: "", tags: "" });
                             isJournalTodayExists() ? showModalPopup() : setShowForm(true);
@@ -206,6 +224,7 @@ function Journals() {
                   </div>
                 </div>
                 {showModal && <PopupModal header="Attention" message="You have already added today's journal!" onClose={closeModalPopup} />}
+                {showPIIModal && ( <PopupModal header="Warning!" message="Do not enter any personal, company or sensitive information such as names, addresses, emails, or passwords." onClose={handlePIIConfirm} /> )}
             </div>
             <Footer />
         </div>

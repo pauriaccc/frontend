@@ -6,6 +6,16 @@ function Navbar() {
     const navigate = useNavigate();
     const [noteCount, setNoteCount] = useState(0);
     const [loadingNotes, setLoadingNotes] = useState(true);
+    const [student, setStudent] = useState(null);
+    const [loadingStudent, setLoadingStudent] = useState(true);
+
+    function isInLastWeek(placementEnd) {
+        const endDate = new Date(placementEnd);
+        const lastWeekStart = new Date(endDate);
+        lastWeekStart.setDate(endDate.getDate() - 7);
+        const today = new Date();
+        return today >= lastWeekStart && today <= endDate;
+    }
 
     useEffect(() => {
         let cancelled = false;
@@ -32,16 +42,39 @@ function Navbar() {
             }
         }
 
+        async function loadStudent() {
+            try {
+                const res = await fetch("http://localhost:8080/api/students/get", { credentials: "include" });
+
+                if (!res.ok) { throw new Error("Failed to fetch student"); }
+
+                const data = await res.json();
+                if (!cancelled) {
+                    setStudent(data);
+                }
+            } catch (err) {
+                console.error(err);
+                if (!cancelled) {
+                    setStudent(null);
+                }
+            } finally {
+                if (!cancelled) {
+                    setLoadingStudent(false);
+                }
+            }
+        }
+
         loadNotes();
+        loadStudent();
         return () => {
             cancelled = true;
         };
     }, []);
 
     const quizLocked = loadingNotes || noteCount < 10;
-    const summaryLocked = false //add logic to check if user has completed placement (or in last week)
+    const summaryLocked = loadingStudent || !student || !isInLastWeek(student.placementEnd);
     const quizTooltip = loadingNotes ? "Checking your notes..." : `Add 10 Notes to Unlock! ${noteCount}/10`;
-    const summaryTooltip = "Finish Your Placement to Unlock";
+    const summaryTooltip = "Unlocks on Last Week of Placement";
 
     return (
         <nav className="navbar">
