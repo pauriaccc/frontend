@@ -1,6 +1,7 @@
 import LandingHeader from "./LandingHeader";
 import Footer from "./Footer";
 import Typewriter from "./Typewriter";
+import FeatureRow from "./FeatureRow";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
 import Aurora from "./Aurora";
@@ -51,67 +52,36 @@ function LandingPage() {
 
         <section className="landing-btf">
           <h1 className="btf-header">Why Placement Pal?</h1>
+          <FeatureRow
+              title="Track Your Progress with Journals"
+              text="Capture your daily placement experiences in a personal journal designed to support reflection and growth. Record what you learned, note challenges you overcame, and track how your skills are developing over time. Your journal helps you build a clear picture of your progress, making it easier to recognise achievements, identify areas to improve, and create a meaningful record of your professional journey."
+              video="/videos/journals.mov"
+          />
+          <FeatureRow
+             title="Reflect & Improve with Your Notepad"
+             text="Keep all your important definitions, key concepts, and new learnings in one organised space. Use the notepad to quickly capture ideas, clarify terminology, and create your own personalised reference guide as you progress through your placement. Over time, your notes become a valuable knowledge base you can revisit anytime to reinforce understanding and support your continued development."
+             video="/videos/notepad.mov"
+             reverse
+          />
 
-          <div className="btf-card">
-            <h2>Track Your Progress</h2>
-            <p>
-              Monitor your daily and weekly placement achievements, track the
-              skills you’re developing, and build a portfolio of real, tangible
-              progress that shows your growth over time. Keep notes, set
-              milestones, and see your journey clearly, so you never lose track
-              of what you’ve accomplished, , so you never lose track of what
-              you’ve accomplished.
-            </p>
-          </div>
+          <FeatureRow
+             title="Learn with Your AI Tutor"
+             text="Ask questions whenever you encounter something new or unclear. The AI Tutor helps explain concepts, provide clear definitions, and break down complex topics into simple, easy-to-understand answers. Whether you need quick clarification or deeper insight, it supports your learning in real time, helping you build confidence and understanding as you progress through your placement."
+             video="/videos/tutor.mov"
+          />
 
-          <div className="btf-card">
-            <h2>Reflect & Improve</h2>
-            <p>
-              Analyze your placement performance in detail, discover strengths
-              and weaknesses, and identify areas for growth. Reflect on what
-              went well, what challenges you faced, and plan your next steps
-              effectively. With structured reflection, you can improve
-              continuously and maximize your learning during every stage of your
-              placement.
-            </p>
-          </div>
+          <FeatureRow
+             title="Test Yourself with an AI Quiz"
+             text="Reinforce your learning with personalised quizzes generated from the notes in your notepad. The AI creates questions based on the definitions, concepts, and topics you’ve saved, helping you check your understanding and identify areas to improve. Regular self-testing strengthens memory, builds confidence, and ensures your new knowledge stays with you as you progress through your placement."
+             video="/videos/quiz.mov"
+             reverse
+          />
 
-          <div className="btf-card">
-            <h2>Build Your Network</h2>
-            <p>
-              Connect with peers, mentors, and placement alumni to expand your
-              professional network. Share insights, ask questions, and gain
-              valuable guidance. Building relationships now will help you access
-              opportunities, learn from experienced professionals, and create
-              lasting connections that support your career for years to come.
-            </p>
-          </div>
-
-          <div className="btf-card">
-            <h2>Stand Out</h2>
-            <p>
-              Create a standout placement portfolio that impresses recruiters
-              and showcases your real-world skills. Highlight projects you’ve
-              completed, the impact you’ve made, and the problem-solving
-              abilities you’ve demonstrated. Showcasing concrete achievements
-              will make your application shine and differentiate you from other
-              candidates.
-            </p>
-          </div>
-
-          <div className="btf-card">
-            <h2>Stay Motivated</h2>
-            <p>
-              Receive insights, tips, and encouragement to stay on track during
-              your placement journey. Celebrate small wins, learn from
-              challenges, and maintain momentum as you progress. With continuous
-              motivation and actionable guidance, you’ll stay focused,
-              confident, and ready to make the most of your placement
-              experience, and ready to make the most of your placement
-              experience.
-            </p>
-          </div>
-
+          <FeatureRow
+             title="Generate an AI Placement Summary"
+             text="Turn your placement experiences into a professional summary ready for your CV or portfolio. The AI reviews your journal entries, notes, and recorded achievements to generate a clear overview of the skills you’ve developed, the tasks you’ve completed, and the progress you’ve made. Save time while ensuring your experience is presented in a confident, well-structured way that highlights your growth and accomplishments."
+             video="/videos/summary.mov"
+          />
           <div className="btf-ending">
             <h2>Ready to start your journey?</h2>
             <p>
