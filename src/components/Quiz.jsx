@@ -82,11 +82,19 @@ function Quiz() {
         }
     }
 
+    const score = useMemo(() => {
+        if (!quiz) return 0;
+
+        return quiz.questions.reduce((total, question, index) => {
+            return total + (selectedAnswers[index] === question.answer ? 1 : 0);
+        }, 0);
+    }, [quiz, selectedAnswers]);
+
     useEffect(() => {
         if (submitted && quiz) {
             saveQuizScore(score, quiz.questions.length);
         }
-    }, [submitted]);
+    }, [submitted, quiz, score]);
 
     function handleNext() {
         if (!quiz) return;
@@ -113,13 +121,7 @@ function Quiz() {
         setError("");
     }
 
-    const score = useMemo(() => {
-        if (!quiz) return 0;
 
-        return quiz.questions.reduce((total, question, index) => {
-            return total + (selectedAnswers[index] === question.answer ? 1 : 0);
-        }, 0);
-    }, [quiz, selectedAnswers]);
 
     if (!started && !loading) {
         return (
