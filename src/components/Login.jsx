@@ -28,6 +28,8 @@ function Login() {
           navigate("/dashboard");
         } else if (data.role === "admin") {
           navigate("/admin");
+        } else if (data.role === "lecturer") {
+          navigate("/ulster");
         }
       } else {
         setError(data.message || "Login failed");

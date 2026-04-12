@@ -1092,6 +1092,7 @@ display: none;
 .landingLogoDiv {
   display: flex;
   align-items: center;
+  gap: 10px;
   height: 100%;
 }
 
@@ -2479,4 +2480,192 @@ input:checked + .toggle-slider:before {
   filter:
     drop-shadow(-10px 0 10px rgba(255, 105, 180, 0.7))
     drop-shadow(10px 0 10px rgba(255, 216, 102, 0.7));
+}
+
+/* Lecturer Panel */
+.lecturer-hero h1 {
+  font-family: "futura-pt-bold", "Futura PT", Arial, sans-serif;
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.lecturer-page {
+    background-color: #FFFFFF;
+    min-height: 100vh;
+
+}
+
+.lecturer-hero {
+    background: #05101f;
+    color: #FFFFFF;
+    padding: 40px 60px;
+}
+
+.lecturer-hero h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.lecturer-hero p {
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
+.lecturer-card {
+    background: #FFFFFF;
+    margin: 40px auto;
+    padding: 30px;
+    width: 90%;
+    max-width: 1100px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.lecturer-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lecturer-table th {
+    text-align: left;
+    padding: 14px;
+    border-bottom: 2px solid #71a3c1;
+    color: #313131;
+    font-weight: 600;
+}
+
+.lecturer-table td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+    color: #313131;
+}
+
+.lecturer-theme .admin-card {
+  background: #ffffff !important;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.lecturer-theme .admin-title {
+  color: #313131;
+  border-bottom: 2px solid #71a3c1;
+}
+
+.lecturer-theme .admin-table thead {
+  background: #05101f;
+}
+
+.lecturer-theme .admin-table th {
+  color: #ffffff;
+  border-bottom: 2px solid #71a3c1;
+}
+
+.lecturer-theme .admin-table td {
+  color: #313131;
+}
+
+.lecturer-theme.lecturer-page {
+  padding-top: 80px;
+}
+
+.landing-header.lecturer {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.landing-header.lecturer a,
+.landing-header.lecturer .logoText {
+  color: #313131 !important;
+}
+
+.lecturer-theme .admin-table td {
+  color: #313131;
+}
+
+.lecturer-theme .admin-table th {
+  color: #ffffff;
+}
+
+.lecturer-theme .admin-table tbody tr:hover {
+  background: rgba(113, 163, 193, 0.08);
+}
+
+.lecturer-theme .lecturer-button {
+  font-family: "Source Code Pro", monospace;
+  background: #05101f;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lecturer-button:disabled {
+  background: #cfcfcf !important;
+  color: #8a8a8a !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+.lecturer-theme .lecturer-button:hover {
+  background: #71a3c1;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.lecturer-theme .lecturer-button:active {
+  transform: scale(0.98);
+}
+
+.lecturer-theme .status.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+.lecturer-theme .status.falling-behind {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.lecturer-theme .status.inactive {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.lecturer-theme .status.no-entries {
+  background: #e2e3e5;
+  color: #6c757d;
+}
+
+.lecturer-theme.admin-page {
+  background: #ffffff !important;
+}
+
+.lecturer-page.lecturer-theme {
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+.ulsterLogo {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+  margin: 0;
+  display: block;
+}
+
+.landing-header.lecturer .landingLogoDiv:hover,
+.landing-header.lecturer .logoDiv:hover {
+  filter: drop-shadow(0 0 10px rgba(113, 163, 193, 0.9))
+          drop-shadow(0 0 20px rgba(113, 163, 193, 0.6));
+}
+
+.landing-header.lecturer .landing-links a:hover {
+  color: rgba(113, 163, 193, 0.9);
+  text-shadow: 0 0 10px rgba(113, 163, 193, 0.6);
 }

@@ -8,6 +8,7 @@ import Dictionaries from "./components/Dictionaries";
 import Journals from "./components/Journals";
 import Summary from "./components/Summary";
 import Quiz from "./components/Quiz";
+import LecturerPanel from "./components/LecturerPanel";
 import Login from "./components/Login";
 import Settings from "./components/Settings";
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/lecturer" element={<AILecturer />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/ulster" element={<LecturerPanel />} />
         <Route path="/createaccount" element={<CreateAccount />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dictionaries" element={<Dictionaries />} />
