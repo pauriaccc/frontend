@@ -16,6 +16,7 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.clearAllMocks();
+  jest.useRealTimers();
 });
 
 test("renders AI Lecturer page", () => {

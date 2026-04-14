@@ -9,12 +9,12 @@ function Navbar() {
     const [student, setStudent] = useState(null);
     const [loadingStudent, setLoadingStudent] = useState(true);
 
-    function isInLastWeek(placementEnd) {
+    function canAccessSummary(placementEnd) {
         const endDate = new Date(placementEnd);
         const lastWeekStart = new Date(endDate);
         lastWeekStart.setDate(endDate.getDate() - 7);
         const today = new Date();
-        return today >= lastWeekStart && today <= endDate;
+        return today >= lastWeekStart;
     }
 
     useEffect(() => {
@@ -72,7 +72,7 @@ function Navbar() {
     }, []);
 
     const quizLocked = loadingNotes || noteCount < 10;
-    const summaryLocked = loadingStudent || !student || !isInLastWeek(student.placementEnd);
+    const summaryLocked = loadingStudent || !student || !canAccessSummary(student.placementEnd);
     const quizTooltip = loadingNotes ? "Checking your notes..." : `Add 10 Notes to Unlock! ${noteCount}/10`;
     const summaryTooltip = "Unlocks on Last Week of Placement";
 

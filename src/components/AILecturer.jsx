@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import logo from "../images/logo.png";
@@ -20,10 +20,9 @@ function AILecturer() {
         fetch(`http://localhost:8080/api/ai?prompt=${encodeURIComponent(prompt)}`)
             .then((response) => response.text())
             .then((data) => {
-                setMessage(data)
-                setLoading(false)
-                setTalking(true)
-                setTimeout(() => setTalking(false), 2500)
+                setMessage(data);
+                setLoading(false);
+                setTalking(true);
             })
             .catch(() => {
                 setMessage("Failed to fetch message.")
@@ -48,6 +47,12 @@ function AILecturer() {
             .then(() => setSaved(true))
             .catch(console.error);
     }
+
+    useEffect(() => {
+        if (!talking) return;
+        const timer = setTimeout(() => setTalking(false), 2500);
+        return () => clearTimeout(timer);
+    }, [talking]);
 
     return (
         <>
