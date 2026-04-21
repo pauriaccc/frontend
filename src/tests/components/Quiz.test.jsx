@@ -4,6 +4,9 @@ import Quiz from "../../components/Quiz";
 jest.mock("../../components/Navbar", () => () => <div>Navbar</div>);
 jest.mock("../../components/Footer", () => () => <div>Footer</div>);
 jest.mock("../../images/logo.png", () => "logo.png");
+jest.mock("react-router-dom", () => ({
+  useNavigate: () => jest.fn(),
+}));
 global.fetch = jest.fn();
 
 const mockQuiz = {
@@ -24,6 +27,13 @@ const mockQuiz = {
 
 beforeEach(() => {
     fetch.mockClear();
+    jest.useFakeTimers();
+});
+
+afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
+    jest.restoreAllMocks();
 });
 
 test("renders start screen", () => {

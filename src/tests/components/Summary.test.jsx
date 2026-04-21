@@ -4,13 +4,19 @@ import Summary from "../../components/Summary";
 jest.mock("../../components/Navbar", () => () => <div>Navbar</div>);
 jest.mock("../../components/Footer", () => () => <div>Footer</div>);
 jest.mock("../../images/logo.png", () => "logo.png");
+jest.mock("react-router-dom", () => ({
+  useNavigate: () => jest.fn(),
+}));
 global.fetch = jest.fn();
 
 beforeEach(() => {
     fetch.mockClear();
+    jest.useFakeTimers();
 });
 
-afterAll(() => {
+afterEach(() => {
+    jest.clearAllMocks();
+    jest.useRealTimers();
     jest.restoreAllMocks();
 });
 

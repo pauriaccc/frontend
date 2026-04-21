@@ -4,6 +4,9 @@ import AILecturer from "../../components/AILecturer";
 jest.mock("../../components/Navbar", () => () => <div>Navbar</div>);
 jest.mock("../../components/Footer", () => () => <div>Footer</div>);
 jest.mock("../../images/logo.png", () => "logo.png");
+jest.mock("react-router-dom", () => ({
+  useNavigate: () => jest.fn(),
+}));
 global.fetch = jest.fn();
 
 global.crypto = {
@@ -12,11 +15,13 @@ global.crypto = {
 
 beforeEach(() => {
   fetch.mockClear();
+  jest.useFakeTimers();
 });
 
 afterEach(() => {
   jest.clearAllMocks();
   jest.useRealTimers();
+  jest.restoreAllMocks();
 });
 
 test("renders AI Lecturer page", () => {
