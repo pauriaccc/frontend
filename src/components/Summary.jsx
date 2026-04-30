@@ -56,7 +56,7 @@ function Summary() {
                 )}
               </div>
               <h1>Congratulations!</h1>
-              <h4>Generate a PDF summarising your placement, based on your journal and Notepad entries.</h4>
+              <h4>Generate a PDF summarising your placement, based on your journal and notepad entries.</h4>
             </div>
 
             <div className="search-response-container">

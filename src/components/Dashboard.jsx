@@ -281,7 +281,7 @@ function Dashboard() {
                         })
                       }
                     >
-                      New Entry
+                      New Note
                     </button>
                   </div>
                 </div>

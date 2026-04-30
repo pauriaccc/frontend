@@ -35,7 +35,7 @@ function AILecturer() {
             dictionaryId: "N" + crypto.randomUUID().slice(0, 5),
             title:  prompt ? prompt.charAt(0).toUpperCase() + prompt.slice(1) : "AI Explanation",
             content: message,
-            tags: ["AI Lecturer"],
+            tags: ["AI Tutor"],
         };
 
         fetch("http://localhost:8080/api/dictionaries/add", {
