@@ -71,112 +71,112 @@ function Dashboard() {
     };
   }, []);
 
-useEffect(() => {
-  let cancelled = false;
-  async function checkTodayJournal() {
-    try {
-      setLoadingTodayJournal(true);
-      const res = await fetch("http://localhost:8080/api/journals/has-today", {
-        credentials: "include",
-      });
+  useEffect(() => {
+    let cancelled = false;
+    async function checkTodayJournal() {
+      try {
+        setLoadingTodayJournal(true);
+        const res = await fetch("http://localhost:8080/api/journals/has-today", {
+          credentials: "include",
+        });
 
-      if (!cancelled) {
-        setHasTodayJournal(res.ok);
-      }
-    } catch (e) {
-      console.error(e);
-      if (!cancelled) setHasTodayJournal(false);
-    } finally {
-      if (!cancelled) setLoadingTodayJournal(false);
-    }
-  }
-  checkTodayJournal();
-  return () => {
-    cancelled = true;
-  };
-}, []);
-
-useEffect(() => {
-  let cancelled = false;
-  async function loadStreak() {
-    try {
-      const res = await fetch("http://localhost:8080/api/journals", {
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        throw new Error(`Failed to fetch journals: ${res.status}`);
-      }
-
-      const journals = await res.json();
-
-      if (!cancelled) {
-        const journalDates = Array.isArray(journals) ? journals.map((journal) => journal.createdTs).filter(Boolean) : [];
-        setStreak(calculateJournalStreak(journalDates));
-      }
-    } catch (err) {
-      console.error(err);
-      if (!cancelled) {
-        setStreak(0);
+        if (!cancelled) {
+          setHasTodayJournal(res.ok);
+        }
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) setHasTodayJournal(false);
+      } finally {
+        if (!cancelled) setLoadingTodayJournal(false);
       }
     }
-  }
-  loadStreak();
-  return () => {
-    cancelled = true;
-  };
-}, []);
+    checkTodayJournal();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-useEffect(() => {
-  let cancelled = false;
-  async function loadQuizScores() {
-    try {
-      setLoadingQuizScores(true);
-      const res = await fetch(
-        "http://localhost:8080/api/students/quiz-scores",
-        { credentials: "include" }
-      );
+  useEffect(() => {
+    let cancelled = false;
+    async function loadStreak() {
+      try {
+        const res = await fetch("http://localhost:8080/api/journals", {
+          credentials: "include",
+        });
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch quiz scores");
-      }
+        if (!res.ok) {
+          throw new Error(`Failed to fetch journals: ${res.status}`);
+        }
 
-      const data = await res.json();
+        const journals = await res.json();
 
-      if (!cancelled) {
-        const formatted = data.map((score, i) => ({
-          index: i + 1,
-          date: new Date(score.createdTs).toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short"
-          }),
-          score: score.score
-        }));
-
-        setQuizScores(formatted);
-      }
-
-    } catch (err) {
-      console.error(err);
-
-      if (!cancelled) {
-        setQuizScores([]);
-      }
-
-    } finally {
-      if (!cancelled) {
-        setLoadingQuizScores(false);
+        if (!cancelled) {
+          const journalDates = Array.isArray(journals) ? journals.map((journal) => journal.createdTs).filter(Boolean) : [];
+          setStreak(calculateJournalStreak(journalDates));
+        }
+      } catch (err) {
+        console.error(err);
+        if (!cancelled) {
+          setStreak(0);
+        }
       }
     }
-  }
+    loadStreak();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-  loadQuizScores();
+  useEffect(() => {
+    let cancelled = false;
+    async function loadQuizScores() {
+      try {
+        setLoadingQuizScores(true);
+        const res = await fetch(
+          "http://localhost:8080/api/students/quiz-scores",
+          { credentials: "include" }
+        );
 
-  return () => {
-    cancelled = true;
-  };
+        if (!res.ok) {
+          throw new Error("Failed to fetch quiz scores");
+        }
 
-}, []);
+        const data = await res.json();
+
+        if (!cancelled) {
+          const formatted = data.map((score, i) => ({
+            index: i + 1,
+            date: new Date(score.createdTs).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short"
+            }),
+            score: score.score
+          }));
+
+          setQuizScores(formatted);
+        }
+
+      } catch (err) {
+        console.error(err);
+
+        if (!cancelled) {
+          setQuizScores([]);
+        }
+
+      } finally {
+        if (!cancelled) {
+          setLoadingQuizScores(false);
+        }
+      }
+    }
+
+    loadQuizScores();
+
+    return () => {
+      cancelled = true;
+    };
+
+  }, []);
 
   return (
     <>

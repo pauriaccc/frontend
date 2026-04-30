@@ -121,8 +121,6 @@ function Quiz() {
         setError("");
     }
 
-
-
     if (!started && !loading) {
         return (
             <>
